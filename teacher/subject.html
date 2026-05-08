@@ -2,19 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+  />
   <title>LearnIQ • General Education Subjects</title>
+
   <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
+
   <!-- Remix Icons -->
   <link
     href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     rel="stylesheet"
   />
-  <!-- Reuse sidebar & dashboard styles -->
+
+  <!-- Reusable Styles -->
   <link rel="stylesheet" href="../assets/styles/teacherStyles/sidebar.css" />
   <link rel="stylesheet" href="../assets/styles/teacherStyles/dashboard.css" />
 
@@ -96,11 +102,11 @@
       padding: 0.75rem 1.2rem 0.75rem 2.8rem;
       border-radius: 40px;
       border: 1px solid #e2e8f0;
-      font-family: 'Nunito', sans-serif;
+      font-family: "Nunito", sans-serif;
       font-weight: 500;
       font-size: 0.9rem;
       background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
       transition: 0.2s;
       outline: none;
     }
@@ -119,7 +125,50 @@
       font-size: 1.1rem;
     }
 
-    /* Subject cards grid */
+    /* Header row with add button */
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .header-row .category-header {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    /* Add New Subject Button */
+    .add-subject-btn {
+      background: #7c6ff7;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 10px rgba(124, 111, 247, 0.25);
+      white-space: nowrap;
+      height: fit-content;
+      margin-top: 0.2rem;
+      font-family: "Nunito", sans-serif;
+    }
+
+    .add-subject-btn:hover {
+      background: #6d5cf0;
+    }
+
+    .add-subject-btn i {
+      font-size: 1.1rem;
+    }
+
+    /* Subject cards */
     .subjects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -137,6 +186,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      position: relative;
     }
 
     .subject-card:hover {
@@ -154,22 +204,39 @@
       justify-content: center;
       font-size: 1.4rem;
       color: white;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
     }
 
     .subject-icon.english {
       background: linear-gradient(135deg, #7c6ff7, #8b7cf7);
     }
+
     .subject-icon.math {
       background: linear-gradient(135deg, #3b82f6, #60a5fa);
     }
+
     .subject-icon.science {
       background: linear-gradient(135deg, #10b981, #34d399);
     }
+
     .subject-icon.filipino {
       background: linear-gradient(135deg, #f59e0b, #fbbf24);
     }
+
     .subject-icon.social {
       background: linear-gradient(135deg, #ef4444, #f87171);
+    }
+
+    .subject-icon.custom-image {
+      background: #e2e8f0;
+      color: transparent;
+    }
+
+    .subject-icon.custom-image i {
+      display: none;
     }
 
     .subject-name {
@@ -198,11 +265,55 @@
       color: #94a3b8;
     }
 
+    /* Card bottom row */
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    /* Edit and Delete buttons */
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .card-actions button {
+      background: transparent;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 1rem;
+      transition: all 0.2s;
+      font-family: "Nunito", sans-serif;
+    }
+
+    .card-actions .edit-btn:hover {
+      background: #ede9fe;
+      color: #7c6ff7;
+    }
+
+    .card-actions .delete-btn:hover {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+
+    /* Arrow button */
     .arrow-icon {
       align-self: flex-end;
       color: #cbd5e1;
       font-size: 1.2rem;
-      transition: transform 0.2s;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: flex;
     }
 
     .subject-card:hover .arrow-icon {
@@ -210,178 +321,845 @@
       color: #7c6ff7;
     }
 
+    /* Modal / Popup Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 480px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+
+    .modal h3 {
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #0f172a;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .modal .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .modal label {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .modal input,
+    .modal textarea {
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-family: "Nunito", sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: 0.2s;
+      background: #f8fafc;
+    }
+
+    .modal input:focus,
+    .modal textarea:focus {
+      border-color: #7c6ff7;
+      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.15);
+      background: white;
+    }
+
+    .modal textarea {
+      resize: vertical;
+      min-height: 75px;
+    }
+
+    .modal .char-count {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      text-align: right;
+    }
+
+    /* Icon upload section */
+    .icon-upload-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .icon-preview {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #64748b;
+      border: 2px dashed #cbd5e1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      flex-shrink: 0;
+      transition: 0.2s;
+    }
+
+    .icon-preview.has-image {
+      border-style: solid;
+      border-color: #7c6ff7;
+    }
+
+    .icon-upload-btn {
+      background: white;
+      border: 1px solid #e2e8f0;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: 0.2s;
+      font-family: "Nunito", sans-serif;
+    }
+
+    .icon-upload-btn:hover {
+      background: #f8fafc;
+      border-color: #7c6ff7;
+      color: #7c6ff7;
+    }
+
+    .icon-upload-btn i {
+      font-size: 1rem;
+    }
+
+    .remove-image-btn {
+      background: transparent;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 0.2rem;
+      font-family: "Nunito", sans-serif;
+    }
+
+    .remove-image-btn.visible {
+      display: flex;
+    }
+
+    .remove-image-btn:hover {
+      text-decoration: underline;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .color-option.selected {
+      border-color: #1e293b;
+      transform: scale(1.15);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .color-blue { background: #3b82f6; }
+    .color-green { background: #10b981; }
+    .color-purple { background: #8b5cf6; }
+    .color-orange { background: #f97316; }
+    .color-red { background: #ef4444; }
+    .color-pink { background: #ec4899; }
+    .color-grey { background: #64748b; }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn-cancel {
+      background: #f1f5f9;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: "Nunito", sans-serif;
+    }
+
+    .btn-cancel:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-save {
+      background: #7c6ff7;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 10px rgba(124, 111, 247, 0.3);
+      font-family: "Nunito", sans-serif;
+    }
+
+    .btn-save:hover {
+      background: #6d5cf0;
+    }
+
     @media (max-width: 600px) {
       .subjects-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .content {
         padding: 1.5rem 1rem 2rem;
+      }
+
+      .header-row {
+        flex-direction: column;
+      }
+
+      .add-subject-btn {
+        width: 100%;
+        justify-content: center;
       }
     }
   </style>
 </head>
+
 <body>
-  <!-- Sidebar placeholder -->
+  <!-- Sidebar -->
   <div id="sidebar"></div>
 
-  <!-- MAIN CONTENT -->
+  <!-- Main -->
   <div class="main">
-    <!-- HEADER placeholder -->
+    <!-- Header -->
     <div id="header"></div>
 
     <div class="content">
-      <!-- Back button -->
+      <!-- Back Button -->
       <a href="categories.html" class="back-link">
-        <i class="ri-arrow-left-line"></i> Back
+        <i class="ri-arrow-left-line"></i>
+        Back
       </a>
 
-      <!-- Category header -->
-      <div class="category-header">
-        <div class="category-badge">
-          <i class="ri-book-open-line"></i> General Education
+      <!-- Header Row with Add Button -->
+      <div class="header-row">
+        <div class="category-header">
+          <div class="category-badge">
+            <i class="ri-book-open-line"></i>
+            General Education
+          </div>
+          <h1 class="category-title">General Education</h1>
+          <p class="category-subtitle">
+            Choose a subject to view and manage quizzes.
+          </p>
         </div>
-        <h1 class="category-title">General Education</h1>
-        <p class="category-subtitle">Choose a subject to view and manage quizzes.</p>
+        <button class="add-subject-btn" id="openAddModalBtn">
+          <i class="ri-add-line"></i>
+          Add New Subject
+        </button>
       </div>
 
-      <!-- Search bar -->
+      <!-- Search -->
       <div class="search-wrapper">
         <i class="ri-search-line"></i>
-        <input type="search" placeholder="Search subjects..." aria-label="Search subjects" />
+        <input
+          type="search"
+          placeholder="Search subjects..."
+          aria-label="Search subjects"
+        />
       </div>
 
-      <!-- Subjects grid -->
+      <!-- Subject Grid -->
       <div class="subjects-grid">
+
         <!-- English -->
-        <div class="subject-card" onclick="navigateToQuizzes('English')">
+        <div
+          class="subject-card"
+          onclick="window.location.href='view-subject.html'"
+        >
           <div class="subject-icon english">
             <i class="ri-english-input"></i>
           </div>
           <h3 class="subject-name">English</h3>
           <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
+            <span>
+              <i class="ri-question-answer-line"></i>
+              6 Quizzes
+            </span>
+            <span>
+              <i class="ri-book-2-line"></i>
+              1 Module
+            </span>
           </div>
-          <i class="ri-arrow-right-line arrow-icon"><a href="view-subject.html"></a></i>
+          <div class="card-bottom">
+            <div class="card-actions" onclick="event.stopPropagation();">
+              <button class="edit-btn" title="Edit English" onclick="openEditModal('english', 'English', 'Language and literature', 'blue', null)">
+                <i class="ri-edit-line"></i>
+              </button>
+              <button class="delete-btn" title="Delete English" onclick="deleteSubject(this, 'English')">
+                <i class="ri-delete-bin-line"></i>
+              </button>
+            </div>
+            <a href="view-subject.html" class="arrow-icon">
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          </div>
         </div>
 
         <!-- Mathematics -->
-        <div class="subject-card" onclick="navigateToQuizzes('Mathematics')">
+        <div
+          class="subject-card"
+          onclick="window.location.href='view-subject.html'"
+        >
           <div class="subject-icon math">
             <i class="ri-calculator-line"></i>
           </div>
           <h3 class="subject-name">Mathematics</h3>
           <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
+            <span>
+              <i class="ri-question-answer-line"></i>
+              6 Quizzes
+            </span>
+            <span>
+              <i class="ri-book-2-line"></i>
+              1 Module
+            </span>
           </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
+          <div class="card-bottom">
+            <div class="card-actions" onclick="event.stopPropagation();">
+              <button class="edit-btn" title="Edit Mathematics" onclick="openEditModal('math', 'Mathematics', 'Algebra, geometry, calculus', 'blue', null)">
+                <i class="ri-edit-line"></i>
+              </button>
+              <button class="delete-btn" title="Delete Mathematics" onclick="deleteSubject(this, 'Mathematics')">
+                <i class="ri-delete-bin-line"></i>
+              </button>
+            </div>
+            <a href="view-subject.html" class="arrow-icon">
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          </div>
         </div>
 
         <!-- Science -->
-        <div class="subject-card" onclick="navigateToQuizzes('Science')">
+        <div
+          class="subject-card"
+          onclick="window.location.href='view-subject.html'"
+        >
           <div class="subject-icon science">
             <i class="ri-flask-line"></i>
           </div>
           <h3 class="subject-name">Science</h3>
           <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
+            <span>
+              <i class="ri-question-answer-line"></i>
+              4 Quizzes
+            </span>
+            <span>
+              <i class="ri-book-2-line"></i>
+              1 Module
+            </span>
           </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
+          <div class="card-bottom">
+            <div class="card-actions" onclick="event.stopPropagation();">
+              <button class="edit-btn" title="Edit Science" onclick="openEditModal('science', 'Science', 'Physics, chemistry, biology', 'green', null)">
+                <i class="ri-edit-line"></i>
+              </button>
+              <button class="delete-btn" title="Delete Science" onclick="deleteSubject(this, 'Science')">
+                <i class="ri-delete-bin-line"></i>
+              </button>
+            </div>
+            <a href="view-subject.html" class="arrow-icon">
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          </div>
         </div>
 
-        <!-- Filipino -->
-        <div class="subject-card" onclick="navigateToQuizzes('Filipino')">
-          <div class="subject-icon filipino">
-            <i class="ri-flag-line"></i>
-          </div>
-          <h3 class="subject-name">Filipino</h3>
-          <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 5 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
-          </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
-        </div>
-
-        <!-- Social Studies -->
-        <div class="subject-card" onclick="navigateToQuizzes('Social Studies')">
-          <div class="subject-icon social">
-            <i class="ri-earth-line"></i>
-          </div>
-          <h3 class="subject-name">Social Studies</h3>
-          <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
-          </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
-        </div>
       </div>
     </div>
-    <!-- end .content -->
   </div>
-  <!-- end .main -->
 
-  <!-- Reuse the same layout JS from dashboard -->
+  <!-- Modal / Popup for Add / Edit Subject -->
+  <div class="modal-overlay" id="subjectModal">
+    <div class="modal">
+      <h3 id="modalTitle">
+        <i class="ri-add-circle-line"></i>
+        Add New Subject
+      </h3>
+
+      <div class="form-group">
+        <label>Subject Icon</label>
+        <div class="icon-upload-group">
+          <div class="icon-preview" id="iconPreview">
+            <i class="ri-image-add-line"></i>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label class="icon-upload-btn" for="iconFileInput">
+              <i class="ri-upload-line"></i> Upload Image
+            </label>
+            <input type="file" id="iconFileInput" accept="image/*" style="display: none;" />
+            <button class="remove-image-btn" id="removeImageBtn" type="button">
+              <i class="ri-delete-bin-line"></i> Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Subject Name</label>
+        <input type="text" id="subjectNameInput" placeholder="Enter category name..." maxlength="100" />
+        <div class="char-count"><span id="nameCharCount">0</span>/100</div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="subjectDescInput" placeholder="Enter description..." maxlength="250"></textarea>
+        <div class="char-count"><span id="descCharCount">0</span>/250</div>
+      </div>
+
+      <div class="form-group">
+        <label>Choose Color Theme</label>
+        <div class="color-options" id="colorOptions">
+          <span class="color-option color-blue selected" data-color="blue"></span>
+          <span class="color-option color-green" data-color="green"></span>
+          <span class="color-option color-purple" data-color="purple"></span>
+          <span class="color-option color-orange" data-color="orange"></span>
+          <span class="color-option color-red" data-color="red"></span>
+          <span class="color-option color-pink" data-color="pink"></span>
+          <span class="color-option color-grey" data-color="grey"></span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" id="closeModalBtn">Cancel</button>
+        <button class="btn-save" id="saveSubjectBtn">Save Subject</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout JS -->
   <script src="../assets/scripts/layout.js"></script>
+
   <script>
-    // Navigate to quizzes page for selected subject
-    function navigateToQuizzes(subject) {
-      // You can replace this with actual navigation
-      alert(`Navigating to ${subject} quizzes...`);
-      // Example: window.location.href = `quizzes.html?subject=${encodeURIComponent(subject)}`;
+    // Modal functionality
+    const modalOverlay = document.getElementById('subjectModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const subjectNameInput = document.getElementById('subjectNameInput');
+    const subjectDescInput = document.getElementById('subjectDescInput');
+    const nameCharCount = document.getElementById('nameCharCount');
+    const descCharCount = document.getElementById('descCharCount');
+    const saveSubjectBtn = document.getElementById('saveSubjectBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const openAddModalBtn = document.getElementById('openAddModalBtn');
+    const colorOptions = document.querySelectorAll('.color-option');
+    const iconFileInput = document.getElementById('iconFileInput');
+    const iconPreview = document.getElementById('iconPreview');
+    const removeImageBtn = document.getElementById('removeImageBtn');
+
+    let selectedColor = 'blue';
+    let isEditing = false;
+    let editingCard = null;
+    let uploadedImageDataUrl = null;
+
+    // Update character counts
+    function updateCharCounts() {
+      nameCharCount.textContent = subjectNameInput.value.length;
+      descCharCount.textContent = subjectDescInput.value.length;
     }
 
-    // Search functionality
-    document.querySelector('.search-wrapper input').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const subjectCards = document.querySelectorAll('.subject-card');
-      
-      subjectCards.forEach(card => {
-        const subjectName = card.querySelector('.subject-name').textContent.toLowerCase();
-        if (subjectName.includes(searchTerm)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+    subjectNameInput.addEventListener('input', updateCharCounts);
+    subjectDescInput.addEventListener('input', updateCharCounts);
+
+    // Color selection
+    colorOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        colorOptions.forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedColor = this.getAttribute('data-color');
       });
     });
 
-    (function() {
-      // ---- Load sidebar and header exactly as reference ----
-      fetch('../assets/components/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('sidebar').innerHTML = data;
-          const dropdownBtn = document.querySelector('.dropdown-btn');
-          if (dropdownBtn) {
-            dropdownBtn.addEventListener('click', () => {
-              const submenu = dropdownBtn.parentElement.querySelector('.submenu');
-              if (submenu) submenu.classList.toggle('show');
-            });
-          }
-          // Active link handling
-          const currentPage = window.location.pathname.split('/').pop();
-          const subjectsLink = document.querySelector('.nav-link[href*="view-subjects"]');
-          if (subjectsLink) subjectsLink.classList.add('active');
-        })
-        .catch(error => console.error('Error loading sidebar:', error));
+    // Image upload handling
+    iconFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          uploadedImageDataUrl = event.target.result;
+          iconPreview.style.backgroundImage = `url(${uploadedImageDataUrl})`;
+          iconPreview.classList.add('has-image');
+          iconPreview.innerHTML = '';
+          removeImageBtn.classList.add('visible');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
-      fetch('../assets/components/header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header').innerHTML = data;
-          const menuToggle = document.querySelector('#menuToggle');
-          if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-              const sidebar = document.querySelector('.sidebar');
-              if (sidebar) sidebar.classList.toggle('show-sidebar');
-            });
+    // Remove image
+    removeImageBtn.addEventListener('click', function() {
+      uploadedImageDataUrl = null;
+      iconPreview.style.backgroundImage = '';
+      iconPreview.classList.remove('has-image');
+      iconPreview.innerHTML = '<i class="ri-image-add-line"></i>';
+      iconFileInput.value = '';
+      removeImageBtn.classList.remove('visible');
+    });
+
+    // Reset icon preview
+    function resetIconPreview(imageUrl = null) {
+      if (imageUrl) {
+        uploadedImageDataUrl = imageUrl;
+        iconPreview.style.backgroundImage = `url(${imageUrl})`;
+        iconPreview.classList.add('has-image');
+        iconPreview.innerHTML = '';
+        removeImageBtn.classList.add('visible');
+      } else {
+        uploadedImageDataUrl = null;
+        iconPreview.style.backgroundImage = '';
+        iconPreview.classList.remove('has-image');
+        iconPreview.innerHTML = '<i class="ri-image-add-line"></i>';
+        iconFileInput.value = '';
+        removeImageBtn.classList.remove('visible');
+      }
+    }
+
+    // Get icon class from color
+    function getIconClassFromColor(color) {
+      if (color === 'green') return 'science';
+      if (color === 'purple') return 'math';
+      if (color === 'orange') return 'filipino';
+      if (color === 'red') return 'social';
+      if (color === 'pink') return 'english';
+      if (color === 'grey') return 'math';
+      return 'english';
+    }
+
+    // Get icon HTML based on class
+    function getIconHTML(iconClass) {
+      if (iconClass === 'math') return '<i class="ri-calculator-line"></i>';
+      if (iconClass === 'science') return '<i class="ri-flask-line"></i>';
+      if (iconClass === 'filipino') return '<i class="ri-article-line"></i>';
+      if (iconClass === 'social') return '<i class="ri-global-line"></i>';
+      return '<i class="ri-english-input"></i>';
+    }
+
+    // Open modal for adding
+    function openAddModal() {
+      isEditing = false;
+      editingCard = null;
+      modalTitle.innerHTML = '<i class="ri-add-circle-line"></i> Add New Subject';
+      subjectNameInput.value = '';
+      subjectDescInput.value = '';
+      selectedColor = 'blue';
+      
+      colorOptions.forEach(opt => opt.classList.remove('selected'));
+      const blueOption = document.querySelector('.color-option[data-color="blue"]');
+      if (blueOption) blueOption.classList.add('selected');
+      
+      resetIconPreview();
+      updateCharCounts();
+      modalOverlay.classList.add('active');
+    }
+
+    // Open modal for editing
+    function openEditModal(colorClass, name, description, color, imageUrl) {
+      isEditing = true;
+      editingCard = document.querySelector('.subject-card .subject-icon.' + colorClass)?.closest('.subject-card') || null;
+      
+      // If we have a custom image, find the card differently
+      if (!editingCard && imageUrl) {
+        const allCards = document.querySelectorAll('.subject-card');
+        allCards.forEach(card => {
+          const iconEl = card.querySelector('.subject-icon');
+          if (iconEl && iconEl.style.backgroundImage.includes(imageUrl.substring(0, 30))) {
+            editingCard = card;
           }
-        })
-        .catch(error => console.error('Error loading header:', error));
-    })();
+        });
+      }
+      
+      modalTitle.innerHTML = '<i class="ri-edit-line"></i> Edit Subject';
+      subjectNameInput.value = name;
+      subjectDescInput.value = description || '';
+      selectedColor = color || 'blue';
+      
+      colorOptions.forEach(opt => {
+        opt.classList.remove('selected');
+        if (opt.getAttribute('data-color') === selectedColor) {
+          opt.classList.add('selected');
+        }
+      });
+      
+      resetIconPreview(imageUrl || null);
+      updateCharCounts();
+      modalOverlay.classList.add('active');
+    }
+
+    // Close modal
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      isEditing = false;
+      editingCard = null;
+    }
+
+    // Save subject (add or edit)
+    function saveSubject() {
+      const name = subjectNameInput.value.trim();
+      if (!name) {
+        alert('Please enter a subject name.');
+        return;
+      }
+
+      const description = subjectDescInput.value.trim();
+      const iconClass = getIconClassFromColor(selectedColor);
+
+      if (isEditing && editingCard) {
+        // Update existing card
+        const nameEl = editingCard.querySelector('.subject-name');
+        if (nameEl) nameEl.textContent = name;
+        
+        // Update icon
+        const iconEl = editingCard.querySelector('.subject-icon');
+        if (iconEl) {
+          if (uploadedImageDataUrl) {
+            // Use custom image
+            iconEl.className = 'subject-icon custom-image';
+            iconEl.style.backgroundImage = `url(${uploadedImageDataUrl})`;
+            iconEl.innerHTML = '';
+          } else {
+            // Use default gradient
+            iconEl.className = 'subject-icon ' + iconClass;
+            iconEl.style.backgroundImage = '';
+            iconEl.innerHTML = getIconHTML(iconClass);
+          }
+        }
+
+        // Update edit button onclick
+        const editBtn = editingCard.querySelector('.edit-btn');
+        if (editBtn) {
+          const imgParam = uploadedImageDataUrl ? `'${uploadedImageDataUrl.replace(/'/g, "\\'")}'` : 'null';
+          editBtn.setAttribute('onclick', `openEditModal('${iconClass}', '${name.replace(/'/g, "\\'")}', '${description.replace(/'/g, "\\'")}', '${selectedColor}', ${imgParam})`);
+        }
+
+        // Update delete button onclick
+        const deleteBtn = editingCard.querySelector('.delete-btn');
+        if (deleteBtn) {
+          deleteBtn.setAttribute('onclick', `deleteSubject(this, '${name.replace(/'/g, "\\'")}')`);
+        }
+      } else {
+        // Add new subject card
+        const subjectsGrid = document.querySelector('.subjects-grid');
+        const newCard = document.createElement('div');
+        newCard.className = 'subject-card';
+        newCard.setAttribute('onclick', "window.location.href='view-subject.html'");
+        
+        let iconHTML = '';
+        let iconClassAttr = iconClass;
+        
+        if (uploadedImageDataUrl) {
+          iconHTML = '';
+          iconClassAttr = 'custom-image';
+        } else {
+          iconHTML = getIconHTML(iconClass);
+        }
+
+        const imgParam = uploadedImageDataUrl ? `'${uploadedImageDataUrl.replace(/'/g, "\\'")}'` : 'null';
+
+        newCard.innerHTML = `
+          <div class="subject-icon ${iconClassAttr}" style="${uploadedImageDataUrl ? 'background-image: url(' + uploadedImageDataUrl + ');' : ''}">
+            ${iconHTML}
+          </div>
+          <h3 class="subject-name">${name.replace(/'/g, "\\'")}</h3>
+          <div class="subject-stats">
+            <span>
+              <i class="ri-question-answer-line"></i>
+              0 Quizzes
+            </span>
+            <span>
+              <i class="ri-book-2-line"></i>
+              0 Module
+            </span>
+          </div>
+          <div class="card-bottom">
+            <div class="card-actions" onclick="event.stopPropagation();">
+              <button class="edit-btn" title="Edit ${name.replace(/'/g, "\\'")}" onclick="openEditModal('${iconClassAttr}', '${name.replace(/'/g, "\\'")}', '${description.replace(/'/g, "\\'")}', '${selectedColor}', ${imgParam})">
+                <i class="ri-edit-line"></i>
+              </button>
+              <button class="delete-btn" title="Delete ${name.replace(/'/g, "\\'")}" onclick="deleteSubject(this, '${name.replace(/'/g, "\\'")}')">
+                <i class="ri-delete-bin-line"></i>
+              </button>
+            </div>
+            <a href="view-subject.html" class="arrow-icon">
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          </div>
+        `;
+        
+        subjectsGrid.appendChild(newCard);
+      }
+
+      closeModal();
+    }
+
+    // Delete subject
+    function deleteSubject(button, subjectName) {
+      if (confirm(`Are you sure you want to delete "${subjectName}"? This action cannot be undone.`)) {
+        const card = button.closest('.subject-card');
+        if (card) {
+          card.remove();
+        }
+      }
+    }
+
+    // Event listeners
+    openAddModalBtn.addEventListener('click', openAddModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    saveSubjectBtn.addEventListener('click', saveSubject);
+
+    // Close modal when clicking overlay
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Make functions globally accessible for onclick handlers
+    window.openEditModal = openEditModal;
+    window.deleteSubject = deleteSubject;
+
+    // Search Functionality
+    document
+      .querySelector(".search-wrapper input")
+      .addEventListener("input", function (e) {
+
+        const searchTerm = e.target.value.toLowerCase();
+        const subjectCards = document.querySelectorAll(".subject-card");
+
+        subjectCards.forEach((card) => {
+          const subjectName = card
+            .querySelector(".subject-name")
+            .textContent
+            .toLowerCase();
+
+          if (subjectName.includes(searchTerm)) {
+            card.style.display = "flex";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+
+    // Load Sidebar
+    fetch("../assets/components/sidebar.html")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("sidebar").innerHTML = data;
+
+        const dropdownBtn = document.querySelector(".dropdown-btn");
+
+        if (dropdownBtn) {
+          dropdownBtn.addEventListener("click", () => {
+            const submenu =
+              dropdownBtn.parentElement.querySelector(".submenu");
+
+            if (submenu) {
+              submenu.classList.toggle("show");
+            }
+          });
+        }
+
+        const subjectsLink = document.querySelector(
+          '.nav-link[href*="view-subjects"]'
+        );
+
+        if (subjectsLink) {
+          subjectsLink.classList.add("active");
+        }
+      });
+
+    // Load Header
+    fetch("../assets/components/header.html")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("header").innerHTML = data;
+
+        const menuToggle = document.querySelector("#menuToggle");
+
+        if (menuToggle) {
+          menuToggle.addEventListener("click", () => {
+            const sidebar = document.querySelector(".sidebar");
+
+            if (sidebar) {
+              sidebar.classList.toggle("show-sidebar");
+            }
+          });
+        }
+      });
   </script>
 </body>
 </html>

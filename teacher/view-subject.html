@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>LearnIQ • General Education Subjects</title>
+  <title>LearnIQ • Subject Details</title>
   <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
-  <!-- Remix Icons -->
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
   <link
     href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     rel="stylesheet"
@@ -32,7 +36,7 @@
       font-weight: 600;
       font-size: 0.9rem;
       text-decoration: none;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
       transition: color 0.2s;
     }
 
@@ -44,19 +48,24 @@
       font-size: 1.2rem;
     }
 
-    /* Header row with title and add button */
-    .header-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
+    /* Subject Header */
+    .subject-header {
+      margin-bottom: 2rem;
     }
 
-    /* Category header */
-    .category-header {
-      margin-bottom: 1.5rem;
+    .subject-header h1 {
+      font-weight: 800;
+      font-size: 2.5rem;
+      color: #0f172a;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.5px;
+    }
+
+    .subject-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
     }
 
     .category-badge {
@@ -65,411 +74,702 @@
       gap: 0.4rem;
       background: #ede9fe;
       color: #5b21b6;
-      padding: 0.25rem 0.9rem;
+      padding: 0.3rem 0.9rem;
       border-radius: 20px;
-      font-weight: 700;
-      font-size: 0.75rem;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      font-weight: 600;
+      font-size: 0.8rem;
     }
 
-    .category-badge i {
-      font-size: 0.9rem;
-    }
-
-    .category-title {
-      font-weight: 800;
-      font-size: 2rem;
-      color: #0f172a;
-      margin: 0 0 0.5rem 0;
-      letter-spacing: -0.3px;
-    }
-
-    .category-subtitle {
+    .subject-stats-inline {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
       color: #64748b;
       font-weight: 500;
-      font-size: 0.95rem;
-      margin: 0;
+      font-size: 0.9rem;
     }
 
-    /* Add Subject Button */
-    .add-subject-btn {
-      display: inline-flex;
+    .subject-stats-inline span {
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background: #7c6ff7;
-      color: white;
-      border: none;
-      border-radius: 40px;
-      padding: 0.7rem 1.5rem;
-      font-weight: 700;
-      font-size: 0.9rem;
-      font-family: 'Nunito', sans-serif;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 4px 12px rgba(124, 111, 247, 0.25);
-      white-space: nowrap;
+      gap: 0.35rem;
     }
 
-    .add-subject-btn:hover {
-      background: #6d5ff0;
-      box-shadow: 0 6px 16px rgba(124, 111, 247, 0.35);
-      transform: translateY(-1px);
-    }
-
-    .add-subject-btn i {
-      font-size: 1.2rem;
-    }
-
-    /* Search bar */
-    .search-wrapper {
-      position: relative;
-      max-width: 400px;
-      width: 100%;
-      margin-bottom: 1.5rem;
-    }
-
-    .search-wrapper input {
-      width: 100%;
-      padding: 0.75rem 1.2rem 0.75rem 2.8rem;
-      border-radius: 40px;
-      border: 1px solid #e2e8f0;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 500;
-      font-size: 0.9rem;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      transition: 0.2s;
-      outline: none;
-    }
-
-    .search-wrapper input:focus {
-      border-color: #7c6ff7;
-      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.15);
-    }
-
-    .search-wrapper i {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
+    .subject-stats-inline i {
       color: #94a3b8;
       font-size: 1.1rem;
     }
 
-    /* Subject cards grid */
-    .subjects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.25rem;
+    .dot-separator {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #cbd5e1;
     }
 
-    .subject-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-      border: 1px solid rgba(0, 0, 0, 0.03);
-      transition: all 0.2s ease;
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 2rem;
+    }
+
+    .tab {
+      padding: 0.85rem 1.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #64748b;
       cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .tab:hover {
+      color: #7c6ff7;
+    }
+
+    .tab.active {
+      color: #7c6ff7;
+      border-bottom-color: #7c6ff7;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Section Headers with action buttons */
+    .section-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .section-header {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-weight: 500;
+      margin-top: -0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .add-btn {
+      background: #7c6ff7;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'Nunito', sans-serif;
+      box-shadow: 0 2px 8px rgba(124, 111, 247, 0.2);
+    }
+
+    .add-btn:hover {
+      background: #6d5cf0;
+    }
+
+    .add-btn i {
+      font-size: 1rem;
+    }
+
+    /* Module Cards */
+    .module-list {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
     }
 
-    .subject-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-      border-color: #e2e8f0;
+    .module-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.2rem;
+      transition: all 0.2s;
+      position: relative;
     }
 
-    .subject-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+    .module-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .module-card h4 {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1e293b;
+      margin: 0 0 0.35rem 0;
+    }
+
+    .module-card p {
+      color: #64748b;
+      font-size: 0.85rem;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .module-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      font-weight: 500;
+      flex-wrap: wrap;
+    }
+
+    .module-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .module-actions {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .module-actions button {
+      background: transparent;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
-      color: white;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 1rem;
+      transition: all 0.2s;
+      font-family: 'Nunito', sans-serif;
     }
 
-    .subject-icon.english {
-      background: linear-gradient(135deg, #7c6ff7, #8b7cf7);
-    }
-    .subject-icon.math {
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
-    }
-    .subject-icon.science {
-      background: linear-gradient(135deg, #10b981, #34d399);
-    }
-    .subject-icon.filipino {
-      background: linear-gradient(135deg, #f59e0b, #fbbf24);
-    }
-    .subject-icon.social {
-      background: linear-gradient(135deg, #ef4444, #f87171);
+    .module-actions .edit-btn:hover {
+      background: #ede9fe;
+      color: #7c6ff7;
     }
 
-    .subject-name {
-      font-weight: 700;
+    .module-actions .delete-btn:hover {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+
+    .file-icon {
       font-size: 1.1rem;
-      color: #1e293b;
-      margin: 0;
     }
 
-    .subject-stats {
-      display: flex;
-      gap: 1rem;
+    .file-icon.pdf { color: #ef4444; }
+    .file-icon.video { color: #3b82f6; }
+    .file-icon.text { color: #10b981; }
+    .file-icon.image { color: #f59e0b; }
+    .file-icon.audio { color: #8b5cf6; }
+
+    /* Quiz Table */
+    .quiz-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .quiz-table thead {
+      background: #f8fafc;
+    }
+
+    .quiz-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
       font-size: 0.85rem;
       color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .quiz-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      font-size: 0.875rem;
       font-weight: 500;
     }
 
-    .subject-stats span {
+    .quiz-table tbody tr:hover {
+      background: #fafbfc;
+    }
+
+    .quiz-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .quiz-icon {
+      color: #7c6ff7;
+      font-size: 1.1rem;
+      margin-right: 0.35rem;
+    }
+
+    .action-buttons {
       display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
       align-items: center;
       gap: 0.3rem;
     }
 
-    .subject-stats i {
-      font-size: 1rem;
-      color: #94a3b8;
+    .btn-open {
+      background: #7c6ff7;
+      color: white;
     }
 
-    .arrow-icon {
-      align-self: flex-end;
-      color: #cbd5e1;
-      font-size: 1.2rem;
-      transition: transform 0.2s;
+    .btn-open:hover {
+      background: #6c5ce7;
     }
 
-    .subject-card:hover .arrow-icon {
-      transform: translateX(4px);
+    .btn-edit {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .btn-edit:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-delete {
+      background: #fef2f2;
+      color: #ef4444;
+    }
+
+    .btn-delete:hover {
+      background: #fee2e2;
+    }
+
+    .view-all-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       color: #7c6ff7;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 1.5rem;
+      text-decoration: none;
+      transition: gap 0.2s;
     }
 
-    /* Modal Overlay */
+    .view-all-link:hover {
+      gap: 0.7rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 2rem 0;
+    }
+
+    /* Modal Styles */
     .modal-overlay {
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(15, 23, 42, 0.4);
       backdrop-filter: blur(4px);
-      z-index: 1000;
+      display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s ease;
     }
 
     .modal-overlay.active {
-      display: flex;
+      visibility: visible;
+      opacity: 1;
     }
 
-    /* Modal Container */
     .modal {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 2rem;
+      background: white;
+      border-radius: 20px;
       width: 90%;
-      max-width: 520px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-      animation: modalSlideIn 0.3s ease;
+      max-width: 650px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
-    @keyframes modalSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    .modal-overlay.active .modal {
+      transform: scale(1);
     }
 
-    .modal-title {
+    .modal h3 {
       font-weight: 800;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       color: #0f172a;
-      margin: 0 0 1.5rem 0;
-      letter-spacing: -0.2px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .form-group {
-      margin-bottom: 1.25rem;
+    .modal .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
     }
 
-    .form-label {
-      display: block;
+    .modal label {
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #334155;
-      margin-bottom: 0.5rem;
       text-transform: uppercase;
       letter-spacing: 0.3px;
     }
 
-    .form-input,
-    .form-textarea {
-      width: 100%;
+    .modal input,
+    .modal textarea,
+    .modal select {
       padding: 0.75rem 1rem;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 500;
+      font-family: "Nunito", sans-serif;
       font-size: 0.9rem;
-      color: #1e293b;
       outline: none;
       transition: 0.2s;
       background: #f8fafc;
     }
 
-    .form-input:focus,
-    .form-textarea:focus {
+    .modal input:focus,
+    .modal textarea:focus,
+    .modal select:focus {
       border-color: #7c6ff7;
-      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.1);
+      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.15);
       background: white;
     }
 
-    .form-textarea {
+    .modal textarea {
       resize: vertical;
-      min-height: 90px;
+      min-height: 75px;
     }
 
-    .char-count {
-      text-align: right;
-      font-size: 0.8rem;
+    .modal .char-count {
+      font-size: 0.75rem;
       color: #94a3b8;
-      margin-top: 0.25rem;
-      font-weight: 500;
+      text-align: right;
     }
 
-    /* Color theme picker */
-    .color-theme-label {
-      display: block;
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: #334155;
-      margin-bottom: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    .color-options {
+    .answer-choices {
       display: flex;
-      gap: 0.75rem;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .answer-choice-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .answer-letter {
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #475569;
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .answer-choice-row input {
+      flex: 1;
+    }
+
+    .separator {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 0.25rem 0;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
       flex-wrap: wrap;
     }
 
-    .color-option {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 3px solid transparent;
-      transition: 0.2s;
-      position: relative;
-    }
-
-    .color-option:hover {
-      transform: scale(1.1);
-    }
-
-    .color-option.selected {
-      border-color: #1e293b;
-      box-shadow: 0 0 0 4px rgba(124, 111, 247, 0.2);
-    }
-
-    .color-option.selected::after {
-      content: '✓';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-weight: 700;
-      font-size: 1rem;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-
-    .color-option.purple { background: #7c6ff7; }
-    .color-option.blue { background: #3b82f6; }
-    .color-option.green { background: #10b981; }
-    .color-option.orange { background: #f59e0b; }
-    .color-option.red { background: #ef4444; }
-    .color-option.pink { background: #ec4899; }
-    .color-option.teal { background: #14b8a6; }
-    .color-option.indigo { background: #6366f1; }
-
-    /* Modal actions */
-    .modal-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-      margin-top: 1.5rem;
-    }
-
     .btn-cancel {
+      background: #f1f5f9;
+      border: none;
       padding: 0.7rem 1.5rem;
       border-radius: 40px;
-      border: 1px solid #e2e8f0;
-      background: white;
-      color: #64748b;
       font-weight: 700;
-      font-size: 0.9rem;
-      font-family: 'Nunito', sans-serif;
+      color: #475569;
       cursor: pointer;
       transition: 0.2s;
+      font-family: "Nunito", sans-serif;
     }
 
     .btn-cancel:hover {
-      background: #f1f5f9;
-      border-color: #cbd5e1;
+      background: #e2e8f0;
+    }
+
+    .btn-draft {
+      background: #fef3c7;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 700;
+      color: #92400e;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: "Nunito", sans-serif;
+    }
+
+    .btn-draft:hover {
+      background: #fde68a;
     }
 
     .btn-save {
+      background: #7c6ff7;
+      border: none;
       padding: 0.7rem 1.8rem;
       border-radius: 40px;
-      border: none;
-      background: #7c6ff7;
-      color: white;
       font-weight: 700;
-      font-size: 0.9rem;
-      font-family: 'Nunito', sans-serif;
+      color: white;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 4px 12px rgba(124, 111, 247, 0.25);
+      box-shadow: 0 4px 10px rgba(124, 111, 247, 0.3);
+      font-family: "Nunito", sans-serif;
     }
 
     .btn-save:hover {
-      background: #6d5ff0;
-      box-shadow: 0 6px 16px rgba(124, 111, 247, 0.35);
+      background: #6d5cf0;
     }
 
-    @media (max-width: 600px) {
-      .subjects-grid {
-        grid-template-columns: 1fr;
+    .btn-add-question {
+      background: #ede9fe;
+      color: #7c6ff7;
+      border: 2px dashed #c4b5fd;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: "Nunito", sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      justify-content: center;
+    }
+
+    .btn-add-question:hover {
+      background: #ddd6fe;
+      border-color: #7c6ff7;
+    }
+
+    .file-upload-area {
+      border: 2px dashed #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      background: #f8fafc;
+    }
+
+    .file-upload-area:hover {
+      border-color: #7c6ff7;
+      background: #f0f0ff;
+    }
+
+    .file-upload-area i {
+      font-size: 2rem;
+      color: #94a3b8;
+    }
+
+    .file-upload-area p {
+      margin: 0.5rem 0 0;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .bulk-upload-section {
+      background: #fafbfc;
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    /* Questions list in modal */
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .question-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      transition: 0.2s;
+    }
+
+    .question-item:hover {
+      border-color: #cbd5e1;
+    }
+
+    .question-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .question-item-info strong {
+      display: block;
+      font-size: 0.9rem;
+      color: #1e293b;
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .question-item-info span {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .question-item-actions {
+      display: flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+
+    .question-item-actions button {
+      background: transparent;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .question-item-actions .edit-qtn-btn:hover {
+      background: #ede9fe;
+      color: #7c6ff7;
+    }
+
+    .question-item-actions .delete-qtn-btn:hover {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+
+    @media (max-width: 768px) {
+      .quiz-table {
+        font-size: 0.8rem;
       }
       
-      .content {
-        padding: 1.5rem 1rem 2rem;
+      .quiz-table th,
+      .quiz-table td {
+        padding: 0.75rem 0.5rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .subject-header h1 {
+        font-size: 2rem;
       }
 
-      .modal {
-        padding: 1.5rem;
-        margin: 1rem;
+      .module-actions {
+        position: static;
+        margin-top: 0.5rem;
       }
 
-      .header-row {
+      .modal-actions {
         flex-direction: column;
       }
 
-      .add-subject-btn {
+      .modal-actions button {
         width: 100%;
         justify-content: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .content {
+        padding: 1.5rem 1rem 2rem;
+      }
+      
+      .subject-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section-header-row {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -485,382 +785,518 @@
 
     <div class="content">
       <!-- Back button -->
-      <a href="manage-categories.html" class="back-link">
-        <i class="ri-arrow-left-line"></i> Back
+      <a href="subject.html" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Subjects
       </a>
 
-      <!-- Header row with title and add button -->
-      <div class="header-row">
-        <div class="category-header">
-          <div class="category-badge">
-            <i class="ri-book-open-line"></i> General Education
+      <!-- Subject Header -->
+      <div class="subject-header">
+        <h1 id="subjectTitle">Mathematics</h1>
+        <div class="subject-meta">
+          <span class="category-badge"><i class="fa-solid fa-book-open"></i> General Education</span>
+          <span class="dot-separator"></span>
+          <div class="subject-stats-inline">
+            <span><i class="fa-solid fa-circle-question"></i> <span id="quizCount">6</span> Quizzes</span>
+            <span class="dot-separator"></span>
+            <span><i class="fa-solid fa-book"></i> <span id="moduleCount">3</span> Modules</span>
           </div>
-          <h1 class="category-title">General Education</h1>
-          <p class="category-subtitle">Choose a subject to view and manage quizzes.</p>
         </div>
-        <button class="add-subject-btn" onclick="openAddSubjectModal()">
-          <i class="ri-add-line"></i> Add New Subject
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('overview')">Overview</button>
+        <button class="tab" onclick="switchTab('modules')">Modules</button>
+        <button class="tab" onclick="switchTab('quizzes')">Quizzes</button>
+      </div>
+
+      <!-- Overview Tab -->
+      <div class="tab-content active" id="overviewTab">
+        <div class="section-header-row">
+          <h3 class="section-header"><i class="fa-solid fa-folder"></i> Learning Modules (<span id="overviewModuleCount">3</span>)</h3>
+          <button class="add-btn" onclick="openModuleModal()">
+            <i class="fa-solid fa-plus"></i> Add Module
+          </button>
+        </div>
+        <p class="section-subtitle">Study materials and resources for this subject.</p>
+        <div class="module-list" id="moduleList"></div>
+
+        <hr class="divider">
+
+        <div class="section-header-row">
+          <h3 class="section-header"><i class="fa-solid fa-pen-to-square"></i> Quizzes (<span id="overviewQuizCount">6</span>)</h3>
+          <button class="add-btn" onclick="openQuizModal()">
+            <i class="fa-solid fa-plus"></i> Create Quiz
+          </button>
+        </div>
+        <p class="section-subtitle">Assessments and quizzes for this subject.</p>
+        <table class="quiz-table">
+          <thead>
+            <tr>
+              <th>Quiz Title</th>
+              <th>Questions</th>
+              <th>Time Limit</th>
+              <th>Total Points</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="quizTableBody"></tbody>
+        </table>
+        <a href="#" class="view-all-link" onclick="switchTab('quizzes'); return false;">
+          View all quizzes <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Modules Tab -->
+      <div class="tab-content" id="modulesTab">
+        <div class="section-header-row">
+          <h3 class="section-header"><i class="fa-solid fa-folder"></i> Learning Modules (<span id="modulesTabCount">3</span>)</h3>
+          <button class="add-btn" onclick="openModuleModal()">
+            <i class="fa-solid fa-plus"></i> Add Module
+          </button>
+        </div>
+        <p class="section-subtitle">Study materials and resources for this subject.</p>
+        <div class="module-list" id="modulesTabList"></div>
+      </div>
+
+      <!-- Quizzes Tab -->
+      <div class="tab-content" id="quizzesTab">
+        <div class="section-header-row">
+          <h3 class="section-header"><i class="fa-solid fa-pen-to-square"></i> Quizzes (<span id="quizzesTabCount">6</span>)</h3>
+          <button class="add-btn" onclick="openQuizModal()">
+            <i class="fa-solid fa-plus"></i> Create Quiz
+          </button>
+        </div>
+        <p class="section-subtitle">Assessments and quizzes for this subject.</p>
+        <table class="quiz-table">
+          <thead>
+            <tr>
+              <th>Quiz Title</th>
+              <th>Questions</th>
+              <th>Time Limit</th>
+              <th>Total Points</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="quizzesTabBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module Modal -->
+  <div class="modal-overlay" id="moduleModal">
+    <div class="modal">
+      <h3 id="moduleModalTitle"><i class="fa-solid fa-file-circle-plus"></i> Add Module</h3>
+      <div class="form-group">
+        <label>Module Title</label>
+        <input type="text" id="moduleTitleInput" placeholder="Enter module title..." />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="moduleDescInput" placeholder="Enter module description..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>File Type</label>
+        <select id="moduleTypeSelect">
+          <option value="PDF">PDF</option>
+          <option value="Video">Video</option>
+          <option value="Text Lesson">Text Lesson</option>
+          <option value="Image">Image</option>
+          <option value="Audio">Audio</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Upload Module File</label>
+        <div class="file-upload-area" onclick="document.getElementById('moduleFileInput').click()">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <p>Click to upload or drag and drop</p>
+          <p style="font-size: 0.75rem; color: #94a3b8;">PDF, DOC, PPT, MP4, etc.</p>
+        </div>
+        <input type="file" id="moduleFileInput" style="display: none;" />
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem;" id="moduleFileName">No file chosen</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModuleModal()">Cancel</button>
+        <button class="btn-save" onclick="saveModule()">Save Module</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Quiz Modal (Google Forms style) -->
+  <div class="modal-overlay" id="quizModal">
+    <div class="modal">
+      <h3><i class="fa-solid fa-pencil"></i> Create Quiz</h3>
+
+      <div class="form-group">
+        <label>Quiz Title</label>
+        <input type="text" id="quizTitleInput" placeholder="Enter quiz title..." />
+      </div>
+
+      <div class="form-group">
+        <label>Time Limit</label>
+        <input type="text" id="quizTimeInput" placeholder="e.g., 30 Minutes" />
+      </div>
+
+      <hr class="separator">
+
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h4 style="margin: 0; font-size: 1rem; color: #1e293b;"><i class="fa-solid fa-list-check"></i> Questions (<span id="questionCountSpan">0</span>)</h4>
+        <button class="btn-add-question" onclick="openAddQuestionForm()">
+          <i class="fa-solid fa-plus"></i> Add Question
         </button>
       </div>
 
-      <!-- Search bar -->
-      <div class="search-wrapper">
-        <i class="ri-search-line"></i>
-        <input type="search" placeholder="Search subjects..." aria-label="Search subjects" />
+      <div class="questions-list" id="questionsList">
+        <p style="color: #94a3b8; font-size: 0.85rem; text-align: center; padding: 1rem;">No questions added yet. Click "Add Question" to start.</p>
       </div>
 
-      <!-- Subjects grid -->
-      <div class="subjects-grid" id="subjectsGrid">
-        <!-- English -->
-        <div class="subject-card" onclick="navigateToQuizzes('English')">
-          <div class="subject-icon english">
-            <i class="ri-english-input"></i>
-          </div>
-          <h3 class="subject-name">English</h3>
-          <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
-          </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
+      <div id="questionFormContainer" style="display: none; background: #fafbfc; border-radius: 12px; padding: 1.2rem; border: 1px solid #e2e8f0;">
+        <h4 id="questionFormTitle" style="margin: 0 0 1rem 0; font-size: 0.95rem; color: #7c6ff7;">Add New Question</h4>
+        
+        <div class="form-group">
+          <label>Question</label>
+          <textarea id="questionTextInput" placeholder="Enter your question here..." maxlength="500" rows="2"></textarea>
+          <div class="char-count"><span id="questionCharCount">0</span>/500</div>
         </div>
 
-        <!-- Mathematics -->
-        <div class="subject-card" onclick="navigateToQuizzes('Mathematics')">
-          <div class="subject-icon math">
-            <i class="ri-calculator-line"></i>
+        <div class="form-group">
+          <label>Answer Choices</label>
+          <div class="answer-choices">
+            <div class="answer-choice-row">
+              <span class="answer-letter">A</span>
+              <input type="text" id="choiceA" placeholder="Enter option A" />
+            </div>
+            <div class="answer-choice-row">
+              <span class="answer-letter">B</span>
+              <input type="text" id="choiceB" placeholder="Enter option B" />
+            </div>
+            <div class="answer-choice-row">
+              <span class="answer-letter">C</span>
+              <input type="text" id="choiceC" placeholder="Enter option C" />
+            </div>
+            <div class="answer-choice-row">
+              <span class="answer-letter">D</span>
+              <input type="text" id="choiceD" placeholder="Enter option D" />
+            </div>
           </div>
-          <h3 class="subject-name">Mathematics</h3>
-          <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
-          </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
         </div>
 
-        <!-- Science -->
-        <div class="subject-card" onclick="navigateToQuizzes('Science')">
-          <div class="subject-icon science">
-            <i class="ri-flask-line"></i>
-          </div>
-          <h3 class="subject-name">Science</h3>
-          <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
-          </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
+        <div class="form-group">
+          <label>Correct Answer</label>
+          <select id="correctAnswerSelect">
+            <option value="">Select correct answer...</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
         </div>
 
-        <!-- Filipino -->
-        <div class="subject-card" onclick="navigateToQuizzes('Filipino')">
-          <div class="subject-icon filipino">
-            <i class="ri-flag-line"></i>
-          </div>
-          <h3 class="subject-name">Filipino</h3>
-          <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 5 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
-          </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
+        <div class="form-group">
+          <label>Explanation (Optional)</label>
+          <textarea id="explanationInput" placeholder="Enter explanation for the correct answer..." rows="2"></textarea>
         </div>
 
-        <!-- Social Studies -->
-        <div class="subject-card" onclick="navigateToQuizzes('Social Studies')">
-          <div class="subject-icon social">
-            <i class="ri-earth-line"></i>
-          </div>
-          <h3 class="subject-name">Social Studies</h3>
-          <div class="subject-stats">
-            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
-            <span><i class="ri-book-2-line"></i> 1 Module</span>
-          </div>
-          <i class="ri-arrow-right-line arrow-icon"></i>
-        </div>
-      </div>
-    </div>
-    <!-- end .content -->
-  </div>
-  <!-- end .main -->
-
-  <!-- Add Subject Modal -->
-  <div class="modal-overlay" id="addSubjectModal">
-    <div class="modal">
-      <h2 class="modal-title">Add New Subject</h2>
-      
-      <!-- Subject Name -->
-      <div class="form-group">
-        <label class="form-label" for="subjectName">Subject Name</label>
-        <input 
-          type="text" 
-          id="subjectName" 
-          class="form-input" 
-          placeholder="Enter subject name..." 
-          maxlength="100"
-          oninput="updateCharCount('subjectName', 'nameCharCount', 100)"
-        />
-        <div class="char-count" id="nameCharCount">0/100</div>
-      </div>
-
-      <!-- Description -->
-      <div class="form-group">
-        <label class="form-label" for="subjectDescription">Description</label>
-        <textarea 
-          id="subjectDescription" 
-          class="form-textarea" 
-          placeholder="Enter description..." 
-          maxlength="250"
-          oninput="updateCharCount('subjectDescription', 'descCharCount', 250)"
-        ></textarea>
-        <div class="char-count" id="descCharCount">0/250</div>
-      </div>
-
-      <!-- Color Theme -->
-      <div class="form-group">
-        <label class="color-theme-label">Choose Color Theme</label>
-        <div class="color-options" id="colorOptions">
-          <div class="color-option purple selected" data-color="purple" onclick="selectColor(this)"></div>
-          <div class="color-option blue" data-color="blue" onclick="selectColor(this)"></div>
-          <div class="color-option green" data-color="green" onclick="selectColor(this)"></div>
-          <div class="color-option orange" data-color="orange" onclick="selectColor(this)"></div>
-          <div class="color-option red" data-color="red" onclick="selectColor(this)"></div>
-          <div class="color-option pink" data-color="pink" onclick="selectColor(this)"></div>
-          <div class="color-option teal" data-color="teal" onclick="selectColor(this)"></div>
-          <div class="color-option indigo" data-color="indigo" onclick="selectColor(this)"></div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
+          <button class="btn-cancel" onclick="cancelQuestionForm()">Cancel</button>
+          <button class="btn-save" onclick="saveQuestion()" id="saveQuestionBtn">Add Question</button>
         </div>
       </div>
 
-      <!-- Modal Actions -->
+      <div class="bulk-upload-section">
+        <div class="form-group">
+          <label>Bulk Upload Questions</label>
+          <p style="font-size: 0.8rem; color: #64748b; margin: 0 0 0.5rem 0;">Upload your CSV or Excel file to add multiple questions at once.</p>
+          <div class="file-upload-area" onclick="document.getElementById('bulkFileInput').click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Drag and drop your file here</p>
+            <p style="font-size: 0.85rem; color: #7c6ff7; font-weight: 600;">or</p>
+            <p style="font-size: 0.85rem; color: #7c6ff7; font-weight: 600;">Choose File</p>
+          </div>
+          <input type="file" id="bulkFileInput" accept=".csv,.xlsx,.xls" style="display: none;" />
+          <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem;">Supported formats: CSV, XLSX</p>
+          <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem;" id="bulkFileName">No file chosen</p>
+        </div>
+      </div>
+
       <div class="modal-actions">
-        <button class="btn-cancel" onclick="closeAddSubjectModal()">Cancel</button>
-        <button class="btn-save" onclick="saveSubject()">Save Subject</button>
+        <button class="btn-cancel" onclick="closeQuizModal()">Cancel</button>
+        <button class="btn-draft" onclick="saveQuizDraft()">Save as Draft</button>
+        <button class="btn-save" onclick="saveQuiz()">Save Quiz</button>
       </div>
     </div>
   </div>
 
-  <!-- Reuse the same layout JS from dashboard -->
   <script src="../assets/scripts/layout.js"></script>
   <script>
-    // Selected color theme
-    let selectedColor = 'purple';
+    const subjectData = {
+      'English': {
+        category: 'General Education',
+        quizzes: 6,
+        modules: 3,
+        moduleList: [
+          { title: 'Grammar Basics - Lesson 1', description: 'Introduction to Parts of Speech and Sentence Structure', type: 'PDF', size: '2.1 MB', date: 'May 10, 2024' },
+          { title: 'Reading Comprehension Video', description: 'Watch this video to improve reading skills', type: 'Video', platform: 'YouTube', date: 'May 12, 2024' },
+          { title: 'Vocabulary & Writing Guide', description: 'Essential vocabulary and writing techniques', type: 'Text Lesson', date: 'May 15, 2024' }
+        ],
+        quizList: [
+          { title: 'Parts of Speech', questions: 20, time: '30 Minutes', points: 100 },
+          { title: 'Verb Tenses', questions: 15, time: '25 Minutes', points: 75 },
+        ]
+      },
+      'Mathematics': {
+        category: 'General Education',
+        quizzes: 6,
+        modules: 3,
+        moduleList: [
+          { title: 'Algebra Basics - Lesson 1', description: 'Introduction to Algebraic Expressions and Variables', type: 'PDF', size: '2.4 MB', date: 'May 10, 2024' },
+          { title: 'Linear Equations Video Tutorial', description: 'Watch this video to understand linear equations', type: 'Video', platform: 'YouTube', date: 'May 12, 2024' },
+          { title: 'Math Formulas & Cheat Sheet', description: 'Important formulas for quick reference', type: 'Text Lesson', date: 'May 15, 2024' }
+        ],
+        quizList: [
+          { title: 'Algebra Basics', questions: 20, time: '30 Minutes', points: 100 },
+          { title: 'Geometry Review', questions: 20, time: '20 Minutes', points: 75 },
+        ]
+      },
+      'Science': {
+        category: 'General Education', quizzes: 4, modules: 3,
+        moduleList: [
+          { title: 'Scientific Method', description: 'Understanding the basics of scientific inquiry', type: 'PDF', size: '1.8 MB', date: 'May 10, 2024' },
+        ],
+        quizList: [
+          { title: 'Lab Safety', questions: 15, time: '20 Minutes', points: 75 },
+        ]
+      }
+    };
 
-    // Open modal
-    function openAddSubjectModal() {
-      document.getElementById('addSubjectModal').classList.add('active');
-      // Reset form
-      document.getElementById('subjectName').value = '';
-      document.getElementById('subjectDescription').value = '';
-      updateCharCount('subjectName', 'nameCharCount', 100);
-      updateCharCount('subjectDescription', 'descCharCount', 250);
-      // Reset color selection
-      selectColor(document.querySelector('.color-option.purple'));
+    const urlParams = new URLSearchParams(window.location.search);
+    const subject = urlParams.get('subject') || 'Mathematics';
+    let editingModuleIndex = null;
+    let quizQuestions = [];
+    let editingQuestionIndex = null;
+
+    function getFileIcon(type) {
+      const t = type.toLowerCase();
+      if (t.includes('pdf')) return '<i class="fa-solid fa-file-pdf file-icon pdf"></i>';
+      if (t.includes('video')) return '<i class="fa-solid fa-video file-icon video"></i>';
+      if (t.includes('text')||t.includes('lesson')) return '<i class="fa-solid fa-file-lines file-icon text"></i>';
+      if (t.includes('image')) return '<i class="fa-solid fa-image file-icon image"></i>';
+      if (t.includes('audio')) return '<i class="fa-solid fa-music file-icon audio"></i>';
+      return '<i class="fa-solid fa-file file-icon"></i>';
     }
 
-    // Close modal
-    function closeAddSubjectModal() {
-      document.getElementById('addSubjectModal').classList.remove('active');
+    function loadSubjectData() {
+      const data = subjectData[subject] || { category:'', quizzes:0, modules:0, moduleList:[], quizList:[] };
+      document.getElementById('subjectTitle').textContent = subject;
+      document.getElementById('quizCount').textContent = data.quizzes;
+      document.getElementById('moduleCount').textContent = data.modules;
+      document.getElementById('overviewModuleCount').textContent = data.modules;
+      document.getElementById('overviewQuizCount').textContent = data.quizzes;
+      document.getElementById('modulesTabCount').textContent = data.modules;
+      document.getElementById('quizzesTabCount').textContent = data.quizzes;
+
+      const modHTML = data.moduleList.map((m,i) => `
+        <div class="module-card">
+          <h4>${getFileIcon(m.type)} ${m.title}</h4><p>${m.description}</p>
+          <div class="module-meta"><span>${getFileIcon(m.type)} ${m.type}</span>${m.size?`<span class="dot-separator"></span><span>${m.size}</span>`:''}<span class="dot-separator"></span><span>Added ${m.date}</span></div>
+          <div class="module-actions">
+            <button class="edit-btn" onclick="event.stopPropagation();openModuleModal(${i})"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="delete-btn" onclick="event.stopPropagation();deleteModule(${i})"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>`).join('');
+      document.getElementById('moduleList').innerHTML = modHTML;
+      document.getElementById('modulesTabList').innerHTML = modHTML;
+
+      const quizHTML = data.quizList.map((q,i) => `
+        <tr><td><i class="fa-solid fa-pencil quiz-icon"></i> ${q.title}</td><td>${q.questions}</td><td>${q.time}</td><td>${q.points}</td>
+        <td><div class="action-buttons"><button class="btn btn-open" onclick="openQuiz('${q.title}')"><i class="fa-solid fa-folder-open"></i> Open</button>
+        <button class="btn btn-edit" onclick="openQuizModal()"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+        <button class="btn btn-delete" onclick="deleteQuiz(${i})"><i class="fa-solid fa-trash"></i> Delete</button></div></td></tr>`).join('');
+      document.getElementById('quizTableBody').innerHTML = quizHTML;
+      document.getElementById('quizzesTabBody').innerHTML = quizHTML;
     }
 
-    // Close modal when clicking overlay
-    document.addEventListener('click', function(e) {
-      if (e.target.id === 'addSubjectModal') {
-        closeAddSubjectModal();
-      }
-    });
+    function switchTab(name) {
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      document.getElementById(name+'Tab').classList.add('active');
+    }
 
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeAddSubjectModal();
-      }
-    });
+    function openQuiz(t){ alert('Opening: '+t); }
 
-    // Update character count
-    function updateCharCount(inputId, countId, maxLength) {
-      const input = document.getElementById(inputId);
-      const count = document.getElementById(countId);
-      const currentLength = input.value.length;
-      count.textContent = `${currentLength}/${maxLength}`;
-      
-      // Visual feedback when approaching limit
-      if (currentLength >= maxLength * 0.9) {
-        count.style.color = '#ef4444';
+    function openModuleModal(i=null){
+      editingModuleIndex=i; const m=document.getElementById('moduleModal');
+      if(i!==null && subjectData[subject].moduleList[i]){
+        const mod=subjectData[subject].moduleList[i];
+        document.getElementById('moduleModalTitle').innerHTML='<i class="fa-solid fa-pen-to-square"></i> Edit Module';
+        document.getElementById('moduleTitleInput').value=mod.title;
+        document.getElementById('moduleDescInput').value=mod.description;
+        document.getElementById('moduleTypeSelect').value=mod.type;
+        document.getElementById('moduleFileName').textContent=mod.size||'No file chosen';
       } else {
-        count.style.color = '#94a3b8';
+        document.getElementById('moduleModalTitle').innerHTML='<i class="fa-solid fa-file-circle-plus"></i> Add Module';
+        document.getElementById('moduleTitleInput').value='';
+        document.getElementById('moduleDescInput').value='';
+        document.getElementById('moduleTypeSelect').value='PDF';
+        document.getElementById('moduleFileName').textContent='No file chosen';
       }
+      m.classList.add('active');
+    }
+    function closeModuleModal(){ document.getElementById('moduleModal').classList.remove('active'); editingModuleIndex=null; }
+    function saveModule(){
+      const title=document.getElementById('moduleTitleInput').value.trim();
+      if(!title){alert('Enter title');return;}
+      const desc=document.getElementById('moduleDescInput').value.trim();
+      const type=document.getElementById('moduleTypeSelect').value;
+      let size='1.5 MB'; const f=document.getElementById('moduleFileInput');
+      if(f.files.length){ size=(f.files[0].size/(1024*1024)).toFixed(1)+' MB'; }
+      const mod={title,description:desc,type,size,date:new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})};
+      if(editingModuleIndex!==null) subjectData[subject].moduleList[editingModuleIndex]=mod;
+      else { subjectData[subject].moduleList.push(mod); subjectData[subject].modules=subjectData[subject].moduleList.length; }
+      loadSubjectData(); closeModuleModal();
+    }
+    function deleteModule(i){ if(confirm('Delete module?')){ subjectData[subject].moduleList.splice(i,1); subjectData[subject].modules--; loadSubjectData(); } }
+
+    function openQuizModal(){
+      quizQuestions = [];
+      editingQuestionIndex = null;
+      document.getElementById('quizTitleInput').value = '';
+      document.getElementById('quizTimeInput').value = '30 Minutes';
+      document.getElementById('questionsList').innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;text-align:center;padding:1rem;">No questions added yet. Click "Add Question" to start.</p>';
+      document.getElementById('questionCountSpan').textContent = '0';
+      document.getElementById('questionFormContainer').style.display = 'none';
+      document.getElementById('bulkFileName').textContent = 'No file chosen';
+      document.getElementById('quizModal').classList.add('active');
     }
 
-    // Select color theme
-    function selectColor(element) {
-      // Remove selected class from all color options
-      document.querySelectorAll('.color-option').forEach(opt => {
-        opt.classList.remove('selected');
-      });
-      // Add selected class to clicked option
-      element.classList.add('selected');
-      selectedColor = element.dataset.color;
+    function closeQuizModal(){ document.getElementById('quizModal').classList.remove('active'); }
+
+    function openAddQuestionForm(index = null){
+      editingQuestionIndex = index;
+      const container = document.getElementById('questionFormContainer');
+      if (index !== null && quizQuestions[index]) {
+        const q = quizQuestions[index];
+        document.getElementById('questionFormTitle').textContent = 'Edit Question';
+        document.getElementById('questionTextInput').value = q.text;
+        document.getElementById('choiceA').value = q.choices.A;
+        document.getElementById('choiceB').value = q.choices.B;
+        document.getElementById('choiceC').value = q.choices.C;
+        document.getElementById('choiceD').value = q.choices.D;
+        document.getElementById('correctAnswerSelect').value = q.correct;
+        document.getElementById('explanationInput').value = q.explanation || '';
+        document.getElementById('saveQuestionBtn').textContent = 'Update Question';
+      } else {
+        document.getElementById('questionFormTitle').textContent = 'Add New Question';
+        document.getElementById('questionTextInput').value = '';
+        document.getElementById('choiceA').value = '';
+        document.getElementById('choiceB').value = '';
+        document.getElementById('choiceC').value = '';
+        document.getElementById('choiceD').value = '';
+        document.getElementById('correctAnswerSelect').value = '';
+        document.getElementById('explanationInput').value = '';
+        document.getElementById('saveQuestionBtn').textContent = 'Add Question';
+      }
+      document.getElementById('questionCharCount').textContent = document.getElementById('questionTextInput').value.length;
+      container.style.display = 'block';
+      container.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Save subject
-    function saveSubject() {
-      const subjectName = document.getElementById('subjectName').value.trim();
-      const subjectDescription = document.getElementById('subjectDescription').value.trim();
+    function cancelQuestionForm(){
+      document.getElementById('questionFormContainer').style.display = 'none';
+      editingQuestionIndex = null;
+    }
 
-      // Validation
-      if (!subjectName) {
-        alert('Please enter a subject name.');
-        document.getElementById('subjectName').focus();
+    function saveQuestion(){
+      const text = document.getElementById('questionTextInput').value.trim();
+      const a = document.getElementById('choiceA').value.trim();
+      const b = document.getElementById('choiceB').value.trim();
+      const c = document.getElementById('choiceC').value.trim();
+      const d = document.getElementById('choiceD').value.trim();
+      const correct = document.getElementById('correctAnswerSelect').value;
+      const explanation = document.getElementById('explanationInput').value.trim();
+      if(!text||!a||!b||!c||!d||!correct){ alert('Fill all required fields.'); return; }
+
+      const question = { text, choices: { A: a, B: b, C: c, D: d }, correct, explanation };
+      
+      if (editingQuestionIndex !== null) {
+        quizQuestions[editingQuestionIndex] = question;
+      } else {
+        quizQuestions.push(question);
+      }
+
+      renderQuestionsList();
+      cancelQuestionForm();
+    }
+
+    function renderQuestionsList(){
+      const list = document.getElementById('questionsList');
+      document.getElementById('questionCountSpan').textContent = quizQuestions.length;
+      
+      if (quizQuestions.length === 0) {
+        list.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;text-align:center;padding:1rem;">No questions added yet.</p>';
         return;
       }
 
-      if (!subjectDescription) {
-        alert('Please enter a description.');
-        document.getElementById('subjectDescription').focus();
-        return;
-      }
-
-      // Create new subject card
-      const subjectsGrid = document.getElementById('subjectsGrid');
-      const newCard = document.createElement('div');
-      newCard.className = 'subject-card';
-      newCard.setAttribute('onclick', `navigateToQuizzes('${subjectName}')`);
-      
-      // Get color class based on selection
-      const colorClasses = {
-        purple: 'english',
-        blue: 'math',
-        green: 'science',
-        orange: 'filipino',
-        red: 'social',
-        pink: 'english',
-        teal: 'science',
-        indigo: 'math'
-      };
-
-      const iconMap = {
-        purple: 'ri-book-open-line',
-        blue: 'ri-computer-line',
-        green: 'ri-leaf-line',
-        orange: 'ri-sun-line',
-        red: 'ri-heart-line',
-        pink: 'ri-star-line',
-        teal: 'ri-drop-line',
-        indigo: 'ri-moon-line'
-      };
-
-      newCard.innerHTML = `
-        <div class="subject-icon ${colorClasses[selectedColor] || 'english'}">
-          <i class="${iconMap[selectedColor] || 'ri-book-open-line'}"></i>
+      list.innerHTML = quizQuestions.map((q, i) => `
+        <div class="question-item">
+          <div class="question-item-info">
+            <strong>${i+1}. ${q.text.substring(0, 80)}${q.text.length>80?'...':''}</strong>
+            <span>Answer: ${q.correct} | Choices: ${Object.values(q.choices).join(', ').substring(0,50)}</span>
+          </div>
+          <div class="question-item-actions">
+            <button class="edit-qtn-btn" onclick="openAddQuestionForm(${i})"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="delete-qtn-btn" onclick="deleteQuestion(${i})"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
-        <h3 class="subject-name">${subjectName}</h3>
-        <div class="subject-stats">
-          <span><i class="ri-question-answer-line"></i> 0 Quizzes</span>
-          <span><i class="ri-book-2-line"></i> 0 Modules</span>
-        </div>
-        <i class="ri-arrow-right-line arrow-icon"></i>
-      `;
-
-      subjectsGrid.appendChild(newCard);
-
-      // Close modal
-      closeAddSubjectModal();
-
-      // Show success message
-      showNotification(`Subject "${subjectName}" added successfully!`);
+      `).join('');
     }
 
-    // Show notification
-    function showNotification(message) {
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background: #10b981;
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        font-weight: 600;
-        font-family: 'Nunito', sans-serif;
-        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-        z-index: 2000;
-        animation: slideInRight 0.3s ease;
-      `;
-      notification.textContent = message;
-      document.body.appendChild(notification);
-
-      setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-      }, 3000);
-    }
-
-    // Add animation styles
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
+    function deleteQuestion(index){
+      if(confirm('Delete this question?')){
+        quizQuestions.splice(index,1);
+        renderQuestionsList();
       }
-      @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Navigate to quizzes page for selected subject
-    function navigateToQuizzes(subject) {
-      alert(`Navigating to ${subject} quizzes...`);
-      // Example: window.location.href = `quizzes.html?subject=${encodeURIComponent(subject)}`;
     }
 
-    // Search functionality
-    document.querySelector('.search-wrapper input').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const subjectCards = document.querySelectorAll('.subject-card');
+    function saveQuiz(){
+      const title = document.getElementById('quizTitleInput').value.trim();
+      if(!title){ alert('Enter quiz title.'); return; }
+      if(quizQuestions.length===0){ alert('Add at least one question.'); return; }
       
-      subjectCards.forEach(card => {
-        const subjectName = card.querySelector('.subject-name').textContent.toLowerCase();
-        if (subjectName.includes(searchTerm)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+      const time = document.getElementById('quizTimeInput').value.trim() || '30 Minutes';
+      const newQuiz = { title, questions: quizQuestions.length, time, points: quizQuestions.length * 5 };
+      subjectData[subject].quizList.push(newQuiz);
+      subjectData[subject].quizzes = subjectData[subject].quizList.length;
+      loadSubjectData();
+      closeQuizModal();
+    }
+
+    function saveQuizDraft(){ alert('Draft saved!'); closeQuizModal(); }
+
+    function deleteQuiz(i){ if(confirm('Delete quiz?')){ subjectData[subject].quizList.splice(i,1); subjectData[subject].quizzes--; loadSubjectData(); } }
+
+    document.getElementById('questionTextInput').addEventListener('input', function(){ document.getElementById('questionCharCount').textContent = this.value.length; });
+    document.getElementById('moduleFileInput').addEventListener('change', function(e){ document.getElementById('moduleFileName').textContent = e.target.files[0]?.name || 'No file chosen'; });
+    document.getElementById('bulkFileInput').addEventListener('change', function(e){ document.getElementById('bulkFileName').textContent = e.target.files[0]?.name || 'No file chosen'; });
+
+    document.querySelectorAll('.modal-overlay').forEach(o=>{ o.addEventListener('click',function(e){ if(e.target===o){ o.classList.remove('active'); editingModuleIndex=null; } }); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay.active').forEach(o=>o.classList.remove('active')); } });
+
+    loadSubjectData();
+
+    (function(){
+      fetch('../assets/components/sidebar.html').then(r=>r.text()).then(d=>{
+        document.getElementById('sidebar').innerHTML=d;
+        const btn=document.querySelector('.dropdown-btn');
+        if(btn) btn.addEventListener('click',()=>{ const s=btn.parentElement.querySelector('.submenu'); if(s) s.classList.toggle('show'); });
       });
-    });
-
-    (function() {
-      // ---- Load sidebar and header exactly as reference ----
-      fetch('../assets/components/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('sidebar').innerHTML = data;
-          const dropdownBtn = document.querySelector('.dropdown-btn');
-          if (dropdownBtn) {
-            dropdownBtn.addEventListener('click', () => {
-              const submenu = dropdownBtn.parentElement.querySelector('.submenu');
-              if (submenu) submenu.classList.toggle('show');
-            });
-          }
-          // Active link handling
-          const currentPage = window.location.pathname.split('/').pop();
-          const subjectsLink = document.querySelector('.nav-link[href*="view-subjects"]');
-          if (subjectsLink) subjectsLink.classList.add('active');
-        })
-        .catch(error => console.error('Error loading sidebar:', error));
-
-      fetch('../assets/components/header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header').innerHTML = data;
-          const menuToggle = document.querySelector('#menuToggle');
-          if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-              const sidebar = document.querySelector('.sidebar');
-              if (sidebar) sidebar.classList.toggle('show-sidebar');
-            });
-          }
-        })
-        .catch(error => console.error('Error loading header:', error));
+      fetch('../assets/components/header.html').then(r=>r.text()).then(d=>{
+        document.getElementById('header').innerHTML=d;
+        const t=document.querySelector('#menuToggle');
+        if(t) t.addEventListener('click',()=>{ const s=document.querySelector('.sidebar'); if(s) s.classList.toggle('show-sidebar'); });
+      });
     })();
   </script>
 </body>
