@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>LearnIQ • General Education Subjects</title>
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Remix Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+  />
+  <!-- Reuse sidebar & dashboard styles -->
+  <link rel="stylesheet" href="../assets/styles/teacherStyles/sidebar.css" />
+  <link rel="stylesheet" href="../assets/styles/teacherStyles/dashboard.css" />
+
+  <style>
+    .content {
+      padding: 1.8rem 2rem 2.5rem;
+    }
+
+    /* Back navigation */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #64748b;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #7c6ff7;
+    }
+
+    .back-link i {
+      font-size: 1.2rem;
+    }
+
+    /* Header row with title and add button */
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Category header */
+    .category-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #ede9fe;
+      color: #5b21b6;
+      padding: 0.25rem 0.9rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .category-badge i {
+      font-size: 0.9rem;
+    }
+
+    .category-title {
+      font-weight: 800;
+      font-size: 2rem;
+      color: #0f172a;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.3px;
+    }
+
+    .category-subtitle {
+      color: #64748b;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* Add Subject Button */
+    .add-subject-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #7c6ff7;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 0.7rem 1.5rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(124, 111, 247, 0.25);
+      white-space: nowrap;
+    }
+
+    .add-subject-btn:hover {
+      background: #6d5ff0;
+      box-shadow: 0 6px 16px rgba(124, 111, 247, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .add-subject-btn i {
+      font-size: 1.2rem;
+    }
+
+    /* Search bar */
+    .search-wrapper {
+      position: relative;
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      padding: 0.75rem 1.2rem 0.75rem 2.8rem;
+      border-radius: 40px;
+      border: 1px solid #e2e8f0;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      transition: 0.2s;
+      outline: none;
+    }
+
+    .search-wrapper input:focus {
+      border-color: #7c6ff7;
+      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.15);
+    }
+
+    .search-wrapper i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    /* Subject cards grid */
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .subject-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      border-color: #e2e8f0;
+    }
+
+    .subject-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: white;
+    }
+
+    .subject-icon.english {
+      background: linear-gradient(135deg, #7c6ff7, #8b7cf7);
+    }
+    .subject-icon.math {
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    }
+    .subject-icon.science {
+      background: linear-gradient(135deg, #10b981, #34d399);
+    }
+    .subject-icon.filipino {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    }
+    .subject-icon.social {
+      background: linear-gradient(135deg, #ef4444, #f87171);
+    }
+
+    .subject-name {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    .subject-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .subject-stats span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .subject-stats i {
+      font-size: 1rem;
+      color: #94a3b8;
+    }
+
+    .arrow-icon {
+      align-self: flex-end;
+      color: #cbd5e1;
+      font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+
+    .subject-card:hover .arrow-icon {
+      transform: translateX(4px);
+      color: #7c6ff7;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    /* Modal Container */
+    .modal {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 520px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-title {
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: #0f172a;
+      margin: 0 0 1.5rem 0;
+      letter-spacing: -0.2px;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #334155;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #1e293b;
+      outline: none;
+      transition: 0.2s;
+      background: #f8fafc;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: #7c6ff7;
+      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.1);
+      background: white;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+
+    /* Color theme picker */
+    .color-theme-label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #334155;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: 0.2s;
+      position: relative;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.selected {
+      border-color: #1e293b;
+      box-shadow: 0 0 0 4px rgba(124, 111, 247, 0.2);
+    }
+
+    .color-option.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .color-option.purple { background: #7c6ff7; }
+    .color-option.blue { background: #3b82f6; }
+    .color-option.green { background: #10b981; }
+    .color-option.orange { background: #f59e0b; }
+    .color-option.red { background: #ef4444; }
+    .color-option.pink { background: #ec4899; }
+    .color-option.teal { background: #14b8a6; }
+    .color-option.indigo { background: #6366f1; }
+
+    /* Modal actions */
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+    }
+
+    .btn-cancel {
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      border: 1px solid #e2e8f0;
+      background: white;
+      color: #64748b;
+      font-weight: 700;
+      font-size: 0.9rem;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-cancel:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .btn-save {
+      padding: 0.7rem 1.8rem;
+      border-radius: 40px;
+      border: none;
+      background: #7c6ff7;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(124, 111, 247, 0.25);
+    }
+
+    .btn-save:hover {
+      background: #6d5ff0;
+      box-shadow: 0 6px 16px rgba(124, 111, 247, 0.35);
+    }
+
+    @media (max-width: 600px) {
+      .subjects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .content {
+        padding: 1.5rem 1rem 2rem;
+      }
+
+      .modal {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .header-row {
+        flex-direction: column;
+      }
+
+      .add-subject-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar placeholder -->
+  <div id="sidebar"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <!-- HEADER placeholder -->
+    <div id="header"></div>
+
+    <div class="content">
+      <!-- Back button -->
+      <a href="manage-categories.html" class="back-link">
+        <i class="ri-arrow-left-line"></i> Back
+      </a>
+
+      <!-- Header row with title and add button -->
+      <div class="header-row">
+        <div class="category-header">
+          <div class="category-badge">
+            <i class="ri-book-open-line"></i> General Education
+          </div>
+          <h1 class="category-title">General Education</h1>
+          <p class="category-subtitle">Choose a subject to view and manage quizzes.</p>
+        </div>
+        <button class="add-subject-btn" onclick="openAddSubjectModal()">
+          <i class="ri-add-line"></i> Add New Subject
+        </button>
+      </div>
+
+      <!-- Search bar -->
+      <div class="search-wrapper">
+        <i class="ri-search-line"></i>
+        <input type="search" placeholder="Search subjects..." aria-label="Search subjects" />
+      </div>
+
+      <!-- Subjects grid -->
+      <div class="subjects-grid" id="subjectsGrid">
+        <!-- English -->
+        <div class="subject-card" onclick="navigateToQuizzes('English')">
+          <div class="subject-icon english">
+            <i class="ri-english-input"></i>
+          </div>
+          <h3 class="subject-name">English</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+
+        <!-- Mathematics -->
+        <div class="subject-card" onclick="navigateToQuizzes('Mathematics')">
+          <div class="subject-icon math">
+            <i class="ri-calculator-line"></i>
+          </div>
+          <h3 class="subject-name">Mathematics</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+
+        <!-- Science -->
+        <div class="subject-card" onclick="navigateToQuizzes('Science')">
+          <div class="subject-icon science">
+            <i class="ri-flask-line"></i>
+          </div>
+          <h3 class="subject-name">Science</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+
+        <!-- Filipino -->
+        <div class="subject-card" onclick="navigateToQuizzes('Filipino')">
+          <div class="subject-icon filipino">
+            <i class="ri-flag-line"></i>
+          </div>
+          <h3 class="subject-name">Filipino</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 5 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+
+        <!-- Social Studies -->
+        <div class="subject-card" onclick="navigateToQuizzes('Social Studies')">
+          <div class="subject-icon social">
+            <i class="ri-earth-line"></i>
+          </div>
+          <h3 class="subject-name">Social Studies</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+      </div>
+    </div>
+    <!-- end .content -->
+  </div>
+  <!-- end .main -->
+
+  <!-- Add Subject Modal -->
+  <div class="modal-overlay" id="addSubjectModal">
+    <div class="modal">
+      <h2 class="modal-title">Add New Subject</h2>
+      
+      <!-- Subject Name -->
+      <div class="form-group">
+        <label class="form-label" for="subjectName">Subject Name</label>
+        <input 
+          type="text" 
+          id="subjectName" 
+          class="form-input" 
+          placeholder="Enter subject name..." 
+          maxlength="100"
+          oninput="updateCharCount('subjectName', 'nameCharCount', 100)"
+        />
+        <div class="char-count" id="nameCharCount">0/100</div>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label class="form-label" for="subjectDescription">Description</label>
+        <textarea 
+          id="subjectDescription" 
+          class="form-textarea" 
+          placeholder="Enter description..." 
+          maxlength="250"
+          oninput="updateCharCount('subjectDescription', 'descCharCount', 250)"
+        ></textarea>
+        <div class="char-count" id="descCharCount">0/250</div>
+      </div>
+
+      <!-- Color Theme -->
+      <div class="form-group">
+        <label class="color-theme-label">Choose Color Theme</label>
+        <div class="color-options" id="colorOptions">
+          <div class="color-option purple selected" data-color="purple" onclick="selectColor(this)"></div>
+          <div class="color-option blue" data-color="blue" onclick="selectColor(this)"></div>
+          <div class="color-option green" data-color="green" onclick="selectColor(this)"></div>
+          <div class="color-option orange" data-color="orange" onclick="selectColor(this)"></div>
+          <div class="color-option red" data-color="red" onclick="selectColor(this)"></div>
+          <div class="color-option pink" data-color="pink" onclick="selectColor(this)"></div>
+          <div class="color-option teal" data-color="teal" onclick="selectColor(this)"></div>
+          <div class="color-option indigo" data-color="indigo" onclick="selectColor(this)"></div>
+        </div>
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeAddSubjectModal()">Cancel</button>
+        <button class="btn-save" onclick="saveSubject()">Save Subject</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reuse the same layout JS from dashboard -->
+  <script src="../assets/scripts/layout.js"></script>
+  <script>
+    // Selected color theme
+    let selectedColor = 'purple';
+
+    // Open modal
+    function openAddSubjectModal() {
+      document.getElementById('addSubjectModal').classList.add('active');
+      // Reset form
+      document.getElementById('subjectName').value = '';
+      document.getElementById('subjectDescription').value = '';
+      updateCharCount('subjectName', 'nameCharCount', 100);
+      updateCharCount('subjectDescription', 'descCharCount', 250);
+      // Reset color selection
+      selectColor(document.querySelector('.color-option.purple'));
+    }
+
+    // Close modal
+    function closeAddSubjectModal() {
+      document.getElementById('addSubjectModal').classList.remove('active');
+    }
+
+    // Close modal when clicking overlay
+    document.addEventListener('click', function(e) {
+      if (e.target.id === 'addSubjectModal') {
+        closeAddSubjectModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAddSubjectModal();
+      }
+    });
+
+    // Update character count
+    function updateCharCount(inputId, countId, maxLength) {
+      const input = document.getElementById(inputId);
+      const count = document.getElementById(countId);
+      const currentLength = input.value.length;
+      count.textContent = `${currentLength}/${maxLength}`;
+      
+      // Visual feedback when approaching limit
+      if (currentLength >= maxLength * 0.9) {
+        count.style.color = '#ef4444';
+      } else {
+        count.style.color = '#94a3b8';
+      }
+    }
+
+    // Select color theme
+    function selectColor(element) {
+      // Remove selected class from all color options
+      document.querySelectorAll('.color-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      // Add selected class to clicked option
+      element.classList.add('selected');
+      selectedColor = element.dataset.color;
+    }
+
+    // Save subject
+    function saveSubject() {
+      const subjectName = document.getElementById('subjectName').value.trim();
+      const subjectDescription = document.getElementById('subjectDescription').value.trim();
+
+      // Validation
+      if (!subjectName) {
+        alert('Please enter a subject name.');
+        document.getElementById('subjectName').focus();
+        return;
+      }
+
+      if (!subjectDescription) {
+        alert('Please enter a description.');
+        document.getElementById('subjectDescription').focus();
+        return;
+      }
+
+      // Create new subject card
+      const subjectsGrid = document.getElementById('subjectsGrid');
+      const newCard = document.createElement('div');
+      newCard.className = 'subject-card';
+      newCard.setAttribute('onclick', `navigateToQuizzes('${subjectName}')`);
+      
+      // Get color class based on selection
+      const colorClasses = {
+        purple: 'english',
+        blue: 'math',
+        green: 'science',
+        orange: 'filipino',
+        red: 'social',
+        pink: 'english',
+        teal: 'science',
+        indigo: 'math'
+      };
+
+      const iconMap = {
+        purple: 'ri-book-open-line',
+        blue: 'ri-computer-line',
+        green: 'ri-leaf-line',
+        orange: 'ri-sun-line',
+        red: 'ri-heart-line',
+        pink: 'ri-star-line',
+        teal: 'ri-drop-line',
+        indigo: 'ri-moon-line'
+      };
+
+      newCard.innerHTML = `
+        <div class="subject-icon ${colorClasses[selectedColor] || 'english'}">
+          <i class="${iconMap[selectedColor] || 'ri-book-open-line'}"></i>
+        </div>
+        <h3 class="subject-name">${subjectName}</h3>
+        <div class="subject-stats">
+          <span><i class="ri-question-answer-line"></i> 0 Quizzes</span>
+          <span><i class="ri-book-2-line"></i> 0 Modules</span>
+        </div>
+        <i class="ri-arrow-right-line arrow-icon"></i>
+      `;
+
+      subjectsGrid.appendChild(newCard);
+
+      // Close modal
+      closeAddSubjectModal();
+
+      // Show success message
+      showNotification(`Subject "${subjectName}" added successfully!`);
+    }
+
+    // Show notification
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: #10b981;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-family: 'Nunito', sans-serif;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        z-index: 2000;
+        animation: slideInRight 0.3s ease;
+      `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Navigate to quizzes page for selected subject
+    function navigateToQuizzes(subject) {
+      alert(`Navigating to ${subject} quizzes...`);
+      // Example: window.location.href = `quizzes.html?subject=${encodeURIComponent(subject)}`;
+    }
+
+    // Search functionality
+    document.querySelector('.search-wrapper input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const subjectCards = document.querySelectorAll('.subject-card');
+      
+      subjectCards.forEach(card => {
+        const subjectName = card.querySelector('.subject-name').textContent.toLowerCase();
+        if (subjectName.includes(searchTerm)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    (function() {
+      // ---- Load sidebar and header exactly as reference ----
+      fetch('../assets/components/sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar').innerHTML = data;
+          const dropdownBtn = document.querySelector('.dropdown-btn');
+          if (dropdownBtn) {
+            dropdownBtn.addEventListener('click', () => {
+              const submenu = dropdownBtn.parentElement.querySelector('.submenu');
+              if (submenu) submenu.classList.toggle('show');
+            });
+          }
+          // Active link handling
+          const currentPage = window.location.pathname.split('/').pop();
+          const subjectsLink = document.querySelector('.nav-link[href*="view-subjects"]');
+          if (subjectsLink) subjectsLink.classList.add('active');
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+
+      fetch('../assets/components/header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header').innerHTML = data;
+          const menuToggle = document.querySelector('#menuToggle');
+          if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+              const sidebar = document.querySelector('.sidebar');
+              if (sidebar) sidebar.classList.toggle('show-sidebar');
+            });
+          }
+        })
+        .catch(error => console.error('Error loading header:', error));
+    })();
+  </script>
+</body>
+</html>

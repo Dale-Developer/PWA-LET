@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>LearnIQ • General Education Subjects</title>
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Remix Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+  />
+  <!-- Reuse sidebar & dashboard styles -->
+  <link rel="stylesheet" href="../assets/styles/teacherStyles/sidebar.css" />
+  <link rel="stylesheet" href="../assets/styles/teacherStyles/dashboard.css" />
+
+  <style>
+    .content {
+      padding: 1.8rem 2rem 2.5rem;
+    }
+
+    /* Back navigation */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #64748b;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #7c6ff7;
+    }
+
+    .back-link i {
+      font-size: 1.2rem;
+    }
+
+    /* Category header */
+    .category-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #ede9fe;
+      color: #5b21b6;
+      padding: 0.25rem 0.9rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .category-badge i {
+      font-size: 0.9rem;
+    }
+
+    .category-title {
+      font-weight: 800;
+      font-size: 2rem;
+      color: #0f172a;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.3px;
+    }
+
+    .category-subtitle {
+      color: #64748b;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* Search bar */
+    .search-wrapper {
+      position: relative;
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      padding: 0.75rem 1.2rem 0.75rem 2.8rem;
+      border-radius: 40px;
+      border: 1px solid #e2e8f0;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      transition: 0.2s;
+      outline: none;
+    }
+
+    .search-wrapper input:focus {
+      border-color: #7c6ff7;
+      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.15);
+    }
+
+    .search-wrapper i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    /* Subject cards grid */
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .subject-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      border-color: #e2e8f0;
+    }
+
+    .subject-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: white;
+    }
+
+    .subject-icon.english {
+      background: linear-gradient(135deg, #7c6ff7, #8b7cf7);
+    }
+    .subject-icon.math {
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    }
+    .subject-icon.science {
+      background: linear-gradient(135deg, #10b981, #34d399);
+    }
+    .subject-icon.filipino {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    }
+    .subject-icon.social {
+      background: linear-gradient(135deg, #ef4444, #f87171);
+    }
+
+    .subject-name {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    .subject-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .subject-stats span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .subject-stats i {
+      font-size: 1rem;
+      color: #94a3b8;
+    }
+
+    .arrow-icon {
+      align-self: flex-end;
+      color: #cbd5e1;
+      font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+
+    .subject-card:hover .arrow-icon {
+      transform: translateX(4px);
+      color: #7c6ff7;
+    }
+
+    @media (max-width: 600px) {
+      .subjects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .content {
+        padding: 1.5rem 1rem 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar placeholder -->
+  <div id="sidebar"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <!-- HEADER placeholder -->
+    <div id="header"></div>
+
+    <div class="content">
+      <!-- Back button -->
+      <a href="categories.html" class="back-link">
+        <i class="ri-arrow-left-line"></i> Back
+      </a>
+
+      <!-- Category header -->
+      <div class="category-header">
+        <div class="category-badge">
+          <i class="ri-book-open-line"></i> General Education
+        </div>
+        <h1 class="category-title">General Education</h1>
+        <p class="category-subtitle">Choose a subject to view and manage quizzes.</p>
+      </div>
+
+      <!-- Search bar -->
+      <div class="search-wrapper">
+        <i class="ri-search-line"></i>
+        <input type="search" placeholder="Search subjects..." aria-label="Search subjects" />
+      </div>
+
+      <!-- Subjects grid -->
+      <div class="subjects-grid">
+        <!-- English -->
+        <div class="subject-card" onclick="navigateToQuizzes('English')">
+          <div class="subject-icon english">
+            <i class="ri-english-input"></i>
+          </div>
+          <h3 class="subject-name">English</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"><a href="view-subject.html"></a></i>
+        </div>
+
+        <!-- Mathematics -->
+        <div class="subject-card" onclick="navigateToQuizzes('Mathematics')">
+          <div class="subject-icon math">
+            <i class="ri-calculator-line"></i>
+          </div>
+          <h3 class="subject-name">Mathematics</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 6 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+
+        <!-- Science -->
+        <div class="subject-card" onclick="navigateToQuizzes('Science')">
+          <div class="subject-icon science">
+            <i class="ri-flask-line"></i>
+          </div>
+          <h3 class="subject-name">Science</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+
+        <!-- Filipino -->
+        <div class="subject-card" onclick="navigateToQuizzes('Filipino')">
+          <div class="subject-icon filipino">
+            <i class="ri-flag-line"></i>
+          </div>
+          <h3 class="subject-name">Filipino</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 5 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+
+        <!-- Social Studies -->
+        <div class="subject-card" onclick="navigateToQuizzes('Social Studies')">
+          <div class="subject-icon social">
+            <i class="ri-earth-line"></i>
+          </div>
+          <h3 class="subject-name">Social Studies</h3>
+          <div class="subject-stats">
+            <span><i class="ri-question-answer-line"></i> 4 Quizzes</span>
+            <span><i class="ri-book-2-line"></i> 1 Module</span>
+          </div>
+          <i class="ri-arrow-right-line arrow-icon"></i>
+        </div>
+      </div>
+    </div>
+    <!-- end .content -->
+  </div>
+  <!-- end .main -->
+
+  <!-- Reuse the same layout JS from dashboard -->
+  <script src="../assets/scripts/layout.js"></script>
+  <script>
+    // Navigate to quizzes page for selected subject
+    function navigateToQuizzes(subject) {
+      // You can replace this with actual navigation
+      alert(`Navigating to ${subject} quizzes...`);
+      // Example: window.location.href = `quizzes.html?subject=${encodeURIComponent(subject)}`;
+    }
+
+    // Search functionality
+    document.querySelector('.search-wrapper input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const subjectCards = document.querySelectorAll('.subject-card');
+      
+      subjectCards.forEach(card => {
+        const subjectName = card.querySelector('.subject-name').textContent.toLowerCase();
+        if (subjectName.includes(searchTerm)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    (function() {
+      // ---- Load sidebar and header exactly as reference ----
+      fetch('../assets/components/sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar').innerHTML = data;
+          const dropdownBtn = document.querySelector('.dropdown-btn');
+          if (dropdownBtn) {
+            dropdownBtn.addEventListener('click', () => {
+              const submenu = dropdownBtn.parentElement.querySelector('.submenu');
+              if (submenu) submenu.classList.toggle('show');
+            });
+          }
+          // Active link handling
+          const currentPage = window.location.pathname.split('/').pop();
+          const subjectsLink = document.querySelector('.nav-link[href*="view-subjects"]');
+          if (subjectsLink) subjectsLink.classList.add('active');
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+
+      fetch('../assets/components/header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header').innerHTML = data;
+          const menuToggle = document.querySelector('#menuToggle');
+          if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+              const sidebar = document.querySelector('.sidebar');
+              if (sidebar) sidebar.classList.toggle('show-sidebar');
+            });
+          }
+        })
+        .catch(error => console.error('Error loading header:', error));
+    })();
+  </script>
+</body>
+</html>
