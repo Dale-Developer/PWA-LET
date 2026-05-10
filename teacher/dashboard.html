@@ -15,6 +15,11 @@
     <!-- CSS: sidebar MUST load first, then dashboard -->
     <link rel="stylesheet" href="../assets/styles/teacherStyles/sidebar.css" />
     <link rel="stylesheet" href="../assets/styles/teacherStyles/dashboard.css" />
+    
+    <!-- Prevent caching issues -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
   </head>
   <body>
     <!-- Sidebar -->
@@ -252,44 +257,7 @@
 
     <script src="../assets/scripts/layout.js"></script>
     <script>
-      // Load sidebar and header components
-      fetch('../assets/components/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('sidebar').innerHTML = data;
-          // Dropdown toggle functionality
-          const dropdownBtn = document.querySelector('.dropdown-btn');
-          if (dropdownBtn) {
-            dropdownBtn.addEventListener('click', () => {
-              const submenu = dropdownBtn.parentElement.querySelector('.submenu');
-              if (submenu) submenu.classList.toggle('show');
-            });
-          }
-          // Active link highlighting
-          const currentPage = window.location.pathname.split('/').pop();
-          if (currentPage === 'dashboard.html' || currentPage === '') {
-            const activeLink = document.querySelector('.nav-link[href="dashboard.html"]');
-            if (activeLink) activeLink.classList.add('active');
-          }
-        })
-        .catch(error => console.error('Error loading sidebar:', error));
-
-      fetch('../assets/components/header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header').innerHTML = data;
-          // Mobile menu toggle
-          const menuToggle = document.querySelector('#menuToggle');
-          if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-              const sidebar = document.querySelector('.sidebar');
-              if (sidebar) sidebar.classList.toggle('show-sidebar');
-            });
-          }
-        })
-        .catch(error => console.error('Error loading header:', error));
-
-      // Donut Chart
+      // Donut Chart only - sidebar/header are loaded by layout.js
       (function() {
         const canvas = document.getElementById("donutChart");
         if (!canvas) return;

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <title>Modules - LearnIQ</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- CSS - Sidebar and Modules styles -->
+  <link rel="stylesheet" href="../assets/styles/studentStyles/studentSidebar.css" />
+  <link rel="stylesheet" href="../assets/styles/studentStyles/studentModules.css" />
+
+  <!-- Additional styles for modules page -->
+  <style>
+    /* ===== FADE-IN ANIMATION ===== */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    /* Additional page-specific styles - no detailed view needed */
+    .page-title-area {
+      margin-bottom: 1.5rem;
+    }
+    
+    .page-title-area h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    
+    .page-sub {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+    
+    .categories-section {
+      margin-bottom: 1.5rem;
+    }
+    
+    .category-filters {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eef2f6;
+      padding-bottom: 1rem;
+    }
+    
+    .category-pill {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      border-radius: 40px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #6b7280;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .category-pill:hover {
+      background: #f1f5f9;
+      color: #1f2937;
+    }
+    
+    .category-pill.active {
+      background: #2f49e0;
+      color: white;
+      box-shadow: 0 2px 6px rgba(47, 73, 224, 0.25);
+    }
+    
+    /* Modules Grid */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    
+    .subject-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: 1px solid #eef2f6;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    
+    .subject-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+      border-color: #e0e7ff;
+    }
+    
+    .subject-icon {
+      width: 52px;
+      height: 52px;
+      background: #eef2ff;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: #2f49e0;
+      font-size: 1.5rem;
+    }
+    
+    .subject-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1f2937;
+    }
+    
+    .subject-card p {
+      font-size: 0.8125rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    
+    .module-count {
+      font-size: 0.7rem;
+      background: #f1f5f9;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 30px;
+      color: #475569;
+      font-weight: 500;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: 24px;
+      color: #6b7280;
+      border: 1px solid #eef2f6;
+    }
+    
+    .empty-state i {
+      font-size: 3rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .modules-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .subject-card {
+        padding: 1.25rem;
+      }
+      
+      .page-title-area h1 {
+        font-size: 1.5rem;
+      }
+      
+      .category-pill {
+        padding: 0.4rem 1rem;
+        font-size: 0.8125rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .modules-grid {
+        gap: 0.875rem;
+      }
+      
+      .subject-card {
+        padding: 1rem;
+      }
+      
+      .subject-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.25rem;
+      }
+      
+      .subject-card h3 {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HAMBURGER -->
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <!-- OVERLAY -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- REUSABLE SIDEBAR (loaded by student-layout.js) -->
+  <div id="sidebar-container"></div>
+
+  <!-- DASHBOARD LAYOUT (without right sidebar) -->
+  <div class="dashboard">
+    <!-- MAIN CONTENT - Full width -->
+    <div class="main-content">
+      <!-- REUSABLE TOPBAR (loaded by student-layout.js) -->
+      <div id="topbar-container"></div>
+
+      <!-- MODULES PAGE CONTENT with fade-in -->
+      <div class="fade-in">
+        <div class="page-title-area">
+          <h1>Modules</h1>
+          <div class="page-sub">Browse and access learning materials by category</div>
+        </div>
+
+        <!-- Category filter pills -->
+        <div class="categories-section">
+          <div class="category-filters" id="categoryFilters">
+            <button class="category-pill active" data-cat="general">General Education</button>
+            <button class="category-pill" data-cat="professional">Professional Education</button>
+            <button class="category-pill" data-cat="major">Major/Specialization</button>
+          </div>
+        </div>
+
+        <!-- DYNAMIC CONTENT CONTAINER -->
+        <div id="dynamicContentContainer">
+          <div class="modules-grid" id="subjectsGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REUSABLE LAYOUT SCRIPT (loads sidebar and topbar) -->
+  <script src="../assets/scripts/student-layout.js"></script>
+
+  <!-- Page-specific dynamic data and interactions -->
+  <script>
+    // Subject data for all categories
+    const subjectsData = {
+      general: [
+        { id: 'math', name: 'Mathematics', description: 'Algebra, Calculus, Statistics', moduleCount: 12, icon: 'fa-calculator', page: 'mathematics' },
+        { id: 'science', name: 'Science', description: 'Physics, Chemistry, Biology', moduleCount: 10, icon: 'fa-flask', page: 'science' },
+        { id: 'english', name: 'English', description: 'Grammar, Literature, Writing', moduleCount: 8, icon: 'fa-book-open', page: 'english' }
+      ],
+      professional: [
+        { id: 'edpsych', name: 'Educational Psychology', description: 'Learning theories & development', moduleCount: 6, icon: 'fa-brain', page: 'edpsych' },
+        { id: 'curriculum', name: 'Curriculum Development', description: 'Design & assessment', moduleCount: 5, icon: 'fa-diagram-project', page: 'curriculum' },
+        { id: 'teaching', name: 'Teaching Strategies', description: 'Pedagogy & classroom management', moduleCount: 7, icon: 'fa-chalkboard-user', page: 'teaching' }
+      ],
+      major: [
+        { id: 'it', name: 'Information Technology', description: 'Programming, Networking, DB', moduleCount: 15, icon: 'fa-laptop-code', page: 'it' },
+        { id: 'eng', name: 'Engineering', description: 'Civil, Mechanical, Electrical', moduleCount: 9, icon: 'fa-gear', page: 'engineering' },
+        { id: 'business', name: 'Business Administration', description: 'Management, Marketing', moduleCount: 11, icon: 'fa-chart-line', page: 'business' }
+      ]
+    };
+
+    let currentCategory = 'general';
+
+    // Get DOM elements
+    const dynamicContainer = document.getElementById('dynamicContentContainer');
+    let subjectsGridEl = document.getElementById('subjectsGrid');
+
+    // Helper: Escape HTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Render subject cards based on selected category
+    function renderSubjects(category) {
+      subjectsGridEl = document.getElementById('subjectsGrid');
+      if (!subjectsGridEl) return;
+
+      const subjects = subjectsData[category] || [];
+
+      if (!subjects.length) {
+        subjectsGridEl.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-regular fa-folder-open"></i>
+            <p>No subjects available in this category.</p>
+          </div>`;
+        return;
+      }
+
+      subjectsGridEl.innerHTML = subjects.map(sub => `
+        <div class="subject-card" data-subject-id="${sub.id}" data-subject-name="${escapeHtml(sub.name)}" data-subject-page="${sub.page}">
+          <div class="subject-icon"><i class="fa-solid ${sub.icon}"></i></div>
+          <h3>${escapeHtml(sub.name)}</h3>
+          <p>${escapeHtml(sub.description)}</p>
+          <span class="module-count"><i class="fa-regular fa-file"></i> ${sub.moduleCount} modules</span>
+        </div>
+      `).join('');
+
+      // Add click event listeners to subject cards - REDIRECT to studentViewModules.html
+      document.querySelectorAll('.subject-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const subjectId = card.getAttribute('data-subject-id');
+          const subjectName = card.getAttribute('data-subject-name');
+          const subjectPage = card.getAttribute('data-subject-page');
+          
+          // Redirect to studentViewModules.html with query parameters
+          // This allows the view modules page to know which subject to display
+          const redirectUrl = `studentViewModules.html?subject=${encodeURIComponent(subjectId)}&name=${encodeURIComponent(subjectName)}&page=${encodeURIComponent(subjectPage)}`;
+          window.location.href = redirectUrl;
+        });
+      });
+    }
+
+    // Switch category and re-render
+    function switchCategory(category) {
+      currentCategory = category;
+      renderSubjects(currentCategory);
+
+      // Update active pill UI
+      document.querySelectorAll('.category-pill').forEach(pill => {
+        const pillCat = pill.getAttribute('data-cat');
+        if (pillCat === category) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSubjects('general');
+
+      // Category filter listeners
+      document.querySelectorAll('.category-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cat = btn.getAttribute('data-cat');
+          if (cat) switchCategory(cat);
+        });
+      });
+
+      // Highlight "Modules" in sidebar after it loads
+      setTimeout(() => {
+        const sidebar = document.querySelector('#sidebar-container .sidebar, #sidebar-container');
+        if (sidebar) {
+          const modulesLink = Array.from(sidebar.querySelectorAll('.menu-item')).find(item => 
+            item.textContent.toLowerCase().includes('modules')
+          );
+          if (modulesLink) {
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            modulesLink.classList.add('active');
+          }
+        }
+      }, 150);
+    });
+  </script>
+</body>
+</html>
