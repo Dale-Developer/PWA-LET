@@ -30,19 +30,100 @@
       rel="stylesheet"
       href="../assets/styles/teacherStyles/dashboard.css"
     />
-    <link rel="stylesheet" href="../assets/styles/teacherStyles/settings.css">
-
-    
+    <link rel="stylesheet" href="../assets/styles/teacherStyles/settings.css" />
   </head>
 
   <body>
     <!-- Sidebar -->
-    <div id="sidebar"></div>
+    <div id="sidebar">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="ri-graduation-cap-fill"></i>
+            </div>
+            <h2>Learn<span>IQ</span></h2>
+          </div>
+          <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-link" id="link-dashboard">
+              <div class="nav-link-left">
+                <i class="ri-home-5-line"></i>
+                <span>Dashboard</span>
+              </div>
+            </a>
+            <div class="nav-item">
+              <button class="nav-link dropdown-btn">
+                <div class="nav-link-left">
+                  <i class="ri-stack-line"></i>
+                  <span>Categories</span>
+                </div>
+                <i class="ri-arrow-down-s-line"></i>
+              </button>
+              <div class="submenu">
+                <a href="categories.html" id="link-categories"
+                  >All Categories</a
+                >
+                <a href="subject.html" id="link-gened">General Education</a>
+                <a href="subject.html" id="link-profed"
+                  >Professional Education</a
+                >
+                <a href="subject.html" id="link-major">Major/ Specialization</a>
+              </div>
+            </div>
+            <a href="performance.html" class="nav-link" id="link-performance">
+              <div class="nav-link-left">
+                <i class="ri-bar-chart-grouped-line"></i>
+                <span>Performance</span>
+              </div>
+            </a>
+          </nav>
+          <div class="promo-card">
+            <div class="cloud">
+              <i class="ri-upload-cloud-2-fill"></i>
+            </div>
+            <h4>Keep content updated</h4>
+            <p>Push updates to students anytime.</p>
+            <button class="sync-btn">Sync Now</button>
+          </div>
+        </div>
+        <div class="sidebar-bottom">
+          <a href="settings.html" class="bottom-link" id="link-settings">
+            <i class="ri-settings-3-line"></i>
+            Settings
+          </a>
+          <a href="#" class="bottom-link">
+            <i class="ri-logout-box-r-line"></i>
+            Logout
+          </a>
+        </div>
+      </aside>
+    </div>
 
     <!-- Main -->
     <div class="main">
       <!-- Header -->
-      <div id="header"></div>
+      <div id="header">
+        <header class="header">
+          <div class="header-left">
+            <button id="menuToggle" class="menu-toggle">
+              <i class="ri-menu-line"></i>
+            </button>
+          </div>
+          <div class="header-right">
+            <div class="notification">
+              <i class="ri-notification-3-line"></i>
+              <span class="notification-badge"></span>
+            </div>
+            <div class="profile">
+              <div class="profile-avatar">T</div>
+              <div class="profile-info">
+                <h4>Teacher Name</h4>
+                <p>Admin</p>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
 
       <div class="content">
         <div class="page-header">
@@ -157,55 +238,61 @@
     </div>
 
     <!-- Layout JS -->
-    <!-- <script src="../assets/scripts/layout.js"></script> -->
 
     <script>
-      // Load Sidebar
-      fetch("../assets/components/sidebar.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("sidebar").innerHTML = data;
+      (function () {
+        // Dropdown toggle
+        var dropdownBtn = document.querySelector(".dropdown-btn");
 
-          const dropdownBtn = document.querySelector(".dropdown-btn");
+        if (dropdownBtn) {
+          dropdownBtn.addEventListener("click", function () {
+            var submenu = dropdownBtn.parentElement.querySelector(".submenu");
 
-          if (dropdownBtn) {
-            dropdownBtn.addEventListener("click", () => {
-              const submenu =
-                dropdownBtn.parentElement.querySelector(".submenu");
-              if (submenu) {
-                submenu.classList.toggle("show");
-              }
-            });
-          }
+            if (submenu) submenu.classList.toggle("show");
+          });
+        }
 
-          const settingsLink = document.querySelector(
-            '.nav-link[href*="settings"]',
-          );
+        // Mobile sidebar toggle
+        var menuToggle = document.getElementById("menuToggle");
 
-          if (settingsLink) {
-            settingsLink.classList.add("active");
-          }
-        })
-        .catch((error) => console.error("Error loading sidebar:", error));
+        if (menuToggle) {
+          menuToggle.addEventListener("click", function () {
+            var sidebar = document.querySelector(".sidebar");
 
-      // Load Header
-      fetch("../assets/components/header.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("header").innerHTML = data;
+            if (sidebar) sidebar.classList.toggle("show-sidebar");
+          });
+        }
 
-          const menuToggle = document.querySelector("#menuToggle");
+        // Active link
+        var activeLink = document.getElementById("link-settings");
 
-          if (menuToggle) {
-            menuToggle.addEventListener("click", () => {
-              const sidebar = document.querySelector(".sidebar");
-              if (sidebar) {
-                sidebar.classList.toggle("show-sidebar");
-              }
-            });
-          }
-        })
-        .catch((error) => console.error("Error loading header:", error));
+        if (activeLink) {
+          activeLink.classList.add("active");
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        // Dropdown toggle
+        var dropdownBtn = document.querySelector(".dropdown-btn");
+        if (dropdownBtn) {
+          dropdownBtn.addEventListener("click", function () {
+            var submenu = dropdownBtn.parentElement.querySelector(".submenu");
+            if (submenu) submenu.classList.toggle("show");
+          });
+        }
+        // Mobile sidebar toggle
+        var menuToggle = document.getElementById("menuToggle");
+        if (menuToggle) {
+          menuToggle.addEventListener("click", function () {
+            var sidebar = document.querySelector(".sidebar");
+            if (sidebar) sidebar.classList.toggle("show-sidebar");
+          });
+        }
+        // Active link
+        var activeLink = document.getElementById("link-settings");
+        if (activeLink) activeLink.classList.add("active");
+      })();
     </script>
   </body>
 </html>
