@@ -15,6 +15,7 @@
 
   <!-- Sidebar CSS (unchanged, external reference) -->
   <link rel="stylesheet" href="../assets/styles/studentStyles/studentSidebar.css" />
+  
 
   <style>
     /* ============================================
@@ -32,7 +33,7 @@
       min-height: 100vh;
       padding: 28px 32px !important;
       gap: 0 !important;
-      background: #f8fafc;
+      background: #f3f4fc;
     }
     
     .dashboard .main-content {
@@ -60,6 +61,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
+      margin-top: 12px;
       margin-bottom: 28px;
       padding-bottom: 12px;
       border-bottom: 2px solid rgba(47, 73, 224, 0.12);
@@ -69,7 +71,8 @@
       font-size: 1.9rem;
       font-weight: 800;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1e293b 0%, #2f49e0 90%);
+      background: #1f2937;
+      /* background: linear-gradient(135deg, #1e293b 0%, #2f49e0 90%); */
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
@@ -144,7 +147,7 @@
     .stat-info h4 {
       font-size: 1.6rem;
       font-weight: 700;
-      color: #0f172a;
+      color: #1f2937;
       line-height: 1.2;
     }
     
@@ -479,10 +482,10 @@
         <!-- Header Area -->
         <div class="history-header">
           <div class="header-title">
-            <h1><i class="fa-regular fa-chart-line" style="margin-right: 12px; color:#2f49e0;"></i> Performance History</h1>
+            <h1>History</h1>
             <p>Track your quiz journey, monitor accuracy trends, and identify knowledge gaps</p>
           </div>
-          <button class="export-history-btn" id="exportHistoryBtn"><i class="fa-solid fa-download"></i> Export report</button>
+          <!-- <button class="export-history-btn" id="exportHistoryBtn"><i class="fa-solid fa-download"></i> Export report</button> -->
         </div>
 
         <!-- Stats Summary Cards -->
@@ -517,21 +520,7 @@
           </div>
         </div>
 
-        <!-- BAR CHART SECTION (average per category) -->
-        <div class="chart-container-modern">
-          <div class="chart-header-flex">
-            <h3><i class="fa-solid fa-chart-column"></i> Average Score by Category</h3>
-            <button class="period-badge" id="periodInfoBtn"><i class="fa-regular fa-calendar"></i> All time</button>
-          </div>
-          <div class="bar-chart-area">
-            <div class="chart-bars" id="trendBarsContainer">
-              <!-- dynamic bars via js -->
-            </div>
-          </div>
-          <div style="font-size:0.7rem; text-align:center; margin-top:12px; color:#94a3b8;">
-            <i class="fa-regular fa-circle-check"></i> Based on your actual quiz attempts
-          </div>
-        </div>
+        
 
         <!-- FILTER SECTION (simple inline) -->
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin: 12px 0 8px;">
