@@ -1,0 +1,1698 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Exam Simulation - LearnIQ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- Reusable sidebar + topbar styles -->
+    <link
+      rel="stylesheet"
+      href="../assets/styles/studentStyles/studentSidebar.css"
+    />
+
+    <style>
+      /* ===== FADE-IN ANIMATION ===== */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      /* ===== OVERRIDE: Remove right sidebar column from dashboard ===== */
+      .dashboard {
+        display: flex !important;
+        width: calc(100% - 215px) !important;
+        margin-left: 215px !important;
+        min-height: 100vh;
+        padding: 24px 28px !important;
+        transition:
+          margin-left 0.3s ease,
+          width 0.3s ease;
+        gap: 0 !important;
+      }
+
+      body.sidebar-collapsed .dashboard {
+        margin-left: 70px !important;
+        width: calc(100% - 70px) !important;
+      }
+
+      .dashboard .main-content {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        flex: 1;
+        overflow-x: hidden;
+      }
+
+      .dashboard .sidebar-right {
+        display: none !important;
+      }
+
+      /* Back link styles */
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #2f49e0;
+        cursor: pointer;
+        margin-bottom: 12px;
+        transition: opacity 0.2s;
+        font-family: "Poppins", sans-serif;
+      }
+      .back-link:hover {
+        opacity: 0.72;
+      }
+      .back-link i {
+        font-size: 11px;
+      }
+
+      /* Page title area */
+      .page-title-area {
+        margin-bottom: 1.5rem;
+      }
+
+      .page-title-area h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 0.25rem;
+      }
+
+      .page-sub {
+        color: #6b7280;
+        font-size: 0.875rem;
+      }
+
+      /* ===== EXAM SETUP SECTION ===== */
+      .exam-setup-section {
+        background: white;
+        border-radius: 24px;
+        padding: 1.75rem;
+        margin-bottom: 2rem;
+        border: 1px solid #eef2f6;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #eef2f6;
+      }
+
+      .section-header i {
+        font-size: 1.5rem;
+        color: #2f49e0;
+      }
+
+      .section-header h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0;
+      }
+
+      .setup-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .option-card {
+        background: #f8fafc;
+        border-radius: 20px;
+        padding: 1.25rem;
+        border: 1px solid #eef2f6;
+        transition: all 0.2s;
+      }
+
+      .option-card:hover {
+        border-color: #2f49e0;
+        background: white;
+      }
+
+      .option-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: #1f2937;
+      }
+
+      .option-label i {
+        font-size: 1.1rem;
+        color: #2f49e0;
+      }
+
+      select,
+      input {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 12px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.85rem;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      select:hover,
+      input:hover {
+        border-color: #2f49e0;
+      }
+
+      select:focus,
+      input:focus {
+        outline: none;
+        border-color: #2f49e0;
+        box-shadow: 0 0 0 3px rgba(47, 73, 224, 0.1);
+      }
+
+      .time-input-group {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .time-input-group input {
+        flex: 1;
+      }
+
+      .time-input-group span {
+        color: #6b7280;
+        font-size: 0.85rem;
+      }
+
+      .start-exam-btn {
+        background: linear-gradient(135deg, #2f49e0 0%, #4338ca 100%);
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 16px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+        font-family: "Poppins", sans-serif;
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .start-exam-btn i {
+        font-size: 1rem;
+      }
+
+      .start-exam-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(47, 73, 224, 0.3);
+      }
+
+      /* ===== INFO CARDS ===== */
+      .info-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .info-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        border: 1px solid #eef2f6;
+        display: flex;
+        gap: 1rem;
+        transition: all 0.2s;
+      }
+
+      .info-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        border-color: #e0e7ff;
+      }
+
+      .info-icon-circle {
+        width: 48px;
+        height: 48px;
+        background: #eef2ff;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .info-icon-circle i {
+        font-size: 1.3rem;
+        color: #2f49e0;
+      }
+
+      .info-content h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+      }
+
+      .info-content p {
+        font-size: 0.8rem;
+        color: #6b7280;
+        line-height: 1.4;
+      }
+
+      /* ===== ACTIVE EXAM MODAL ===== */
+      .exam-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 1400;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .exam-modal.active {
+        display: flex;
+      }
+
+      .exam-container {
+        background: white;
+        width: 900px;
+        max-width: 95vw;
+        max-height: 90vh;
+        border-radius: 28px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        animation: modalIn 0.3s ease-out;
+      }
+
+      @keyframes modalIn {
+        from {
+          transform: scale(0.96);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .exam-header {
+        background: linear-gradient(135deg, #2f49e0 0%, #4338ca 100%);
+        padding: 1.25rem 1.5rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .exam-header h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .exam-header h3 i {
+        font-size: 1.1rem;
+      }
+
+      .timer-box {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .timer-box i {
+        font-size: 1rem;
+      }
+
+      .timer-box.warning {
+        background: #ef4444;
+        animation: pulse 0.5s ease-in-out;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .exam-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      .question-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+      }
+
+      .options-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .option-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.9rem 1rem;
+        background: #f8fafc;
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1.5px solid transparent;
+      }
+
+      .option-item:hover {
+        background: #eef2ff;
+        border-color: #2f49e0;
+      }
+
+      .option-item.selected {
+        background: #eef2ff;
+        border-color: #2f49e0;
+      }
+
+      .option-radio {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #cbd5e1;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+
+      .option-item.selected .option-radio {
+        border-color: #2f49e0;
+        background: #2f49e0;
+        box-shadow: inset 0 0 0 3px white;
+      }
+
+      .option-text {
+        font-size: 0.9rem;
+        color: #1f2937;
+        flex: 1;
+      }
+
+      .exam-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #eef2f6;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .question-counter {
+        font-size: 0.85rem;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .question-counter i {
+        font-size: 0.8rem;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 40px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .nav-btn.prev {
+        background: #f1f5f9;
+        color: #475569;
+      }
+
+      .nav-btn.prev:hover {
+        background: #e2e8f0;
+      }
+
+      .nav-btn.next {
+        background: #2f49e0;
+        color: white;
+      }
+
+      .nav-btn.next:hover {
+        background: #4338ca;
+        transform: translateX(2px);
+      }
+
+      .submit-btn {
+        background: #10b981;
+        color: white;
+        padding: 0.6rem 1.5rem;
+        border-radius: 40px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .submit-btn:hover {
+        background: #059669;
+        transform: scale(1.02);
+      }
+
+      /* Results Modal */
+      .results-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 1500;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .results-modal.active {
+        display: flex;
+      }
+
+      .results-container {
+        background: white;
+        width: 500px;
+        max-width: 90vw;
+        border-radius: 28px;
+        padding: 2rem;
+        text-align: center;
+        animation: modalIn 0.3s ease-out;
+      }
+
+      .score-circle {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .score-number {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #2f49e0;
+      }
+
+      .score-label {
+        font-size: 0.8rem;
+        color: #6b7280;
+      }
+
+      .results-container h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .close-results-btn {
+        background: #2f49e0;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 40px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1.5rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .close-results-btn:hover {
+        background: #4338ca;
+        transform: translateY(-1px);
+      }
+
+      /* ===== COMPLETE RESPONSIVE BREAKPOINTS ===== */
+
+      /* Tablet and below - sidebar becomes off-canvas */
+      @media (max-width: 1024px) {
+        .dashboard {
+          margin-left: 0 !important;
+          width: 100% !important;
+          padding: calc(70px + env(safe-area-inset-top, 0px)) 20px 30px !important;
+        }
+        body.sidebar-collapsed .dashboard {
+          margin-left: 0 !important;
+          width: 100% !important;
+        }
+      }
+
+      /* Mobile landscape and tablets */
+      @media (max-width: 768px) {
+        .dashboard {
+          padding: calc(65px + env(safe-area-inset-top, 0px)) 16px 20px !important;
+        }
+
+        .page-title-area h1 {
+          font-size: 1.5rem;
+        }
+
+        .page-sub {
+          font-size: 0.75rem;
+        }
+
+        .setup-options {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .info-cards {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .info-card {
+          padding: 1.25rem;
+        }
+
+        .info-icon-circle {
+          width: 40px;
+          height: 40px;
+        }
+
+        .info-icon-circle i {
+          font-size: 1.1rem;
+        }
+
+        .exam-setup-section {
+          padding: 1.25rem;
+        }
+
+        .section-header h2 {
+          font-size: 1.1rem;
+        }
+
+        .section-header i {
+          font-size: 1.2rem;
+        }
+
+        .exam-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .exam-footer {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .question-counter {
+          justify-content: center;
+        }
+
+        .nav-buttons {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .option-item {
+          padding: 0.75rem;
+        }
+
+        .option-text {
+          font-size: 0.85rem;
+        }
+
+        .question-text {
+          font-size: 1rem;
+        }
+      }
+
+      /* Mobile portrait */
+      @media (max-width: 480px) {
+        .dashboard {
+          padding: calc(60px + env(safe-area-inset-top, 0px)) 12px 16px !important;
+        }
+
+        .page-title-area h1 {
+          font-size: 1.3rem;
+        }
+
+        .back-link {
+          font-size: 11px;
+          margin-bottom: 8px;
+        }
+
+        .exam-setup-section {
+          padding: 1rem;
+          border-radius: 20px;
+        }
+
+        .option-card {
+          padding: 1rem;
+        }
+
+        .option-label {
+          font-size: 0.85rem;
+          margin-bottom: 0.75rem;
+        }
+
+        select,
+        input {
+          padding: 0.6rem 0.8rem;
+          font-size: 0.8rem;
+        }
+
+        .time-input-group span {
+          font-size: 0.75rem;
+        }
+
+        .start-exam-btn {
+          padding: 0.8rem;
+          font-size: 0.9rem;
+        }
+
+        .info-card {
+          padding: 1rem;
+        }
+
+        .info-content h3 {
+          font-size: 0.9rem;
+        }
+
+        .info-content p {
+          font-size: 0.7rem;
+        }
+
+        .exam-container {
+          max-width: 98vw;
+          border-radius: 20px;
+        }
+
+        .exam-header {
+          padding: 1rem;
+        }
+
+        .exam-header h3 {
+          font-size: 1rem;
+        }
+
+        .timer-box {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
+        }
+
+        .exam-body {
+          padding: 1rem;
+        }
+
+        .option-item {
+          padding: 0.6rem;
+          gap: 0.75rem;
+        }
+
+        .option-text {
+          font-size: 0.75rem;
+        }
+
+        .option-radio {
+          width: 16px;
+          height: 16px;
+        }
+
+        .nav-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.75rem;
+        }
+
+        .submit-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.75rem;
+        }
+
+        .results-container {
+          padding: 1.5rem;
+        }
+
+        .score-circle {
+          width: 120px;
+          height: 120px;
+        }
+
+        .score-number {
+          font-size: 2.2rem;
+        }
+
+        .results-container h3 {
+          font-size: 1.2rem;
+        }
+      }
+
+      /* Small mobile */
+      @media (max-width: 380px) {
+        .nav-buttons {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .nav-btn,
+        .submit-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      /* Large screens */
+      @media (min-width: 1400px) {
+        .dashboard {
+          padding: 32px 40px !important;
+        }
+
+        .setup-options {
+          gap: 2rem;
+        }
+
+        .info-cards {
+          gap: 2rem;
+        }
+
+        .exam-setup-section {
+          padding: 2rem;
+        }
+
+        .option-card {
+          padding: 1.5rem;
+        }
+      }
+
+      /* Prevent overflow */
+      * {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      body {
+        overflow-x: hidden;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open sidebar">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard">
+      <div class="main-content">
+        <div id="topbar-container"></div>
+
+        <div class="fade-in">
+          <div class="page-title-area">
+            <div class="back-link" onclick="goBack()">
+              <i class="fa-solid fa-chevron-left"></i>
+              Quiz Mode
+            </div>
+            <h1>Exam Simulation</h1>
+            <div class="page-sub">
+              Simulate real LET exam conditions with timed mock tests
+            </div>
+          </div>
+
+          <!-- Info Cards -->
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-icon-circle">
+                <i class="fa-regular fa-circle-question"></i>
+              </div>
+              <div class="info-content">
+                <h3>Multiple Choice Questions</h3>
+                <p>Professionally crafted MCQs covering all LET domains</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon-circle">
+                <i class="fa-solid fa-shuffle"></i>
+              </div>
+              <div class="info-content">
+                <h3>Randomized Questions</h3>
+                <p>Unique question sets per attempt for authentic practice</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon-circle">
+                <i class="fa-solid fa-hourglass-half"></i>
+              </div>
+              <div class="info-content">
+                <h3>Timed Mock Exams</h3>
+                <p>Auto-submit when time expires, just like the real exam</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exam Setup Section -->
+          <div class="exam-setup-section">
+            <div class="section-header">
+              <i class="fa-solid fa-gear"></i>
+              <h2>Exam Configuration</h2>
+            </div>
+
+            <div class="setup-options">
+              <div class="option-card">
+                <div class="option-label">
+                  <i class="fa-solid fa-layer-group"></i>
+                  <span>Category</span>
+                </div>
+                <select id="examCategory">
+                  <option value="All">All Categories</option>
+                  <option value="General Education">General Education</option>
+                  <option value="Professional Education">
+                    Professional Education
+                  </option>
+                  <option value="Major/Specialization">
+                    Major/Specialization
+                  </option>
+                </select>
+              </div>
+
+              <div class="option-card">
+                <div class="option-label">
+                  <i class="fa-solid fa-list-ol"></i>
+                  <span>Number of Questions</span>
+                </div>
+                <select id="questionCount">
+                  <option value="10">10 Questions (Quick Quiz)</option>
+                  <option value="20">20 Questions (Practice)</option>
+                  <option value="30">30 Questions (Standard)</option>
+                  <option value="50">50 Questions (Full Mock)</option>
+                  <option value="100">100 Questions (Comprehensive)</option>
+                </select>
+              </div>
+
+              <div class="option-card">
+                <div class="option-label">
+                  <i class="fa-solid fa-hourglass-half"></i>
+                  <span>Time Limit</span>
+                </div>
+                <div class="time-input-group">
+                  <input
+                    type="number"
+                    id="minutesInput"
+                    placeholder="Minutes"
+                    value="60"
+                    min="1"
+                    max="180"
+                  />
+                  <span><i class="fa-regular fa-clock"></i> minutes</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="start-exam-btn" onclick="startExam()">
+              <i class="fa-solid fa-play"></i>
+              Start Exam Simulation
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Exam Modal -->
+    <div id="examModal" class="exam-modal">
+      <div class="exam-container">
+        <div class="exam-header">
+          <h3><i class="fa-regular fa-file-lines"></i> LET Exam Simulation</h3>
+          <div class="timer-box" id="timerDisplay">
+            <i class="fa-regular fa-hourglass-half"></i>
+            <span id="timerText">60:00</span>
+          </div>
+        </div>
+        <div class="exam-body">
+          <div class="question-text" id="questionText">
+            <i class="fa-regular fa-question-circle"></i> Loading question...
+          </div>
+          <div class="options-list" id="optionsList"></div>
+        </div>
+        <div class="exam-footer">
+          <div class="question-counter" id="questionCounter">
+            <i class="fa-regular fa-rectangle-list"></i>
+            <span>Question 1 / 0</span>
+          </div>
+          <div class="nav-buttons">
+            <button class="nav-btn prev" onclick="prevQuestion()">
+              <i class="fa-solid fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-btn next" onclick="nextQuestion()">
+              Next <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button class="submit-btn" onclick="submitExam()">
+              <i class="fa-solid fa-check-double"></i> Submit Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="resultsModal" class="results-modal">
+      <div class="results-container">
+        <div class="score-circle">
+          <span class="score-number" id="scoreNumber">0</span>
+          <span class="score-label"
+            >out of <span id="totalQuestions">0</span></span
+          >
+        </div>
+        <h3 id="resultTitle">
+          <i class="fa-regular fa-star"></i> Exam Complete!
+        </h3>
+        <p id="resultMessage">Great job on completing the simulation!</p>
+        <button class="close-results-btn" onclick="closeResults()">
+          <i class="fa-solid fa-check"></i> Close
+        </button>
+      </div>
+    </div>
+
+    <script src="../assets/scripts/student-layout.js"></script>
+
+    <script>
+      // Mock questions database
+      const mockQuestions = {
+        All: [
+          {
+            text: "What is the largest planet in our solar system?",
+            options: ["Mars", "Jupiter", "Saturn", "Earth"],
+            correct: 1,
+          },
+          {
+            text: 'Who wrote "Noli Me Tangere"?',
+            options: [
+              "Jose Rizal",
+              "Andres Bonifacio",
+              "Emilio Aguinaldo",
+              "Marcelo H. del Pilar",
+            ],
+            correct: 0,
+          },
+          {
+            text: "What is the square root of 144?",
+            options: ["10", "11", "12", "13"],
+            correct: 2,
+          },
+          {
+            text: "Which of the following is a primary color?",
+            options: ["Green", "Orange", "Purple", "Red"],
+            correct: 3,
+          },
+          {
+            text: "What is the chemical symbol for Gold?",
+            options: ["Go", "Gd", "Au", "Ag"],
+            correct: 2,
+          },
+          {
+            text: "Who painted the Mona Lisa?",
+            options: ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"],
+            correct: 2,
+          },
+          {
+            text: "What is the capital of Japan?",
+            options: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+            correct: 2,
+          },
+          {
+            text: "Which planet is known as the Red Planet?",
+            options: ["Jupiter", "Mars", "Venus", "Saturn"],
+            correct: 1,
+          },
+          {
+            text: 'Who is known as the "Father of Modern Psychology"?',
+            options: [
+              "Sigmund Freud",
+              "William James",
+              "Wilhelm Wundt",
+              "John Dewey",
+            ],
+            correct: 2,
+          },
+          {
+            text: "What does IEP stand for in special education?",
+            options: [
+              "Individual Education Plan",
+              "Integrated Education Program",
+              "Individualized Education Plan",
+              "Inclusive Education Policy",
+            ],
+            correct: 2,
+          },
+          {
+            text: "Constructivism emphasizes that learning is:",
+            options: [
+              "Passive absorption",
+              "Active construction",
+              "Rote memorization",
+              "Teacher-centered",
+            ],
+            correct: 1,
+          },
+          {
+            text: "Bloom's Taxonomy highest level is:",
+            options: ["Synthesis", "Evaluation", "Analysis", "Creation"],
+            correct: 3,
+          },
+          {
+            text: "What is the main purpose of formative assessment?",
+            options: [
+              "Grading students",
+              "Monitoring progress",
+              "Final evaluation",
+              "Ranking performance",
+            ],
+            correct: 1,
+          },
+          {
+            text: "Who proposed the theory of multiple intelligences?",
+            options: ["Piaget", "Vygotsky", "Gardner", "Dewey"],
+            correct: 2,
+          },
+          {
+            text: "What does ZPD stand for?",
+            options: [
+              "Zone of Proximal Development",
+              "Zero Performance District",
+              "Zone of Personal Discovery",
+              "Zonal Proximal Direction",
+            ],
+            correct: 0,
+          },
+          {
+            text: "Which learning theory focuses on observable behaviors?",
+            options: [
+              "Constructivism",
+              "Humanism",
+              "Behaviorism",
+              "Cognitivism",
+            ],
+            correct: 2,
+          },
+          {
+            text: "What does HTML stand for?",
+            options: [
+              "Hyper Text Markup Language",
+              "High Tech Modern Language",
+              "Hyper Transfer Markup Language",
+              "Home Tool Markup Language",
+            ],
+            correct: 0,
+          },
+          {
+            text: "Which of the following is a programming language?",
+            options: ["HTML", "CSS", "JavaScript", "XML"],
+            correct: 2,
+          },
+          {
+            text: "What is the chemical symbol for Gold?",
+            options: ["Go", "Gd", "Au", "Ag"],
+            correct: 2,
+          },
+          {
+            text: "Which law states that for every action there is an equal and opposite reaction?",
+            options: ["First Law", "Second Law", "Third Law", "Fourth Law"],
+            correct: 2,
+          },
+          {
+            text: "What does CPU stand for?",
+            options: [
+              "Central Processing Unit",
+              "Computer Personal Unit",
+              "Central Program Utility",
+              "Core Processing Utility",
+            ],
+            correct: 0,
+          },
+          {
+            text: "Which data structure uses LIFO principle?",
+            options: ["Queue", "Array", "Stack", "Linked List"],
+            correct: 2,
+          },
+          {
+            text: "What is the powerhouse of the cell?",
+            options: ["Nucleus", "Mitochondria", "Ribosome", "Chloroplast"],
+            correct: 1,
+          },
+          {
+            text: "Which protocol is used for secure web browsing?",
+            options: ["HTTP", "FTP", "HTTPS", "SMTP"],
+            correct: 2,
+          },
+        ],
+        "General Education": [
+          {
+            text: "What is the largest planet in our solar system?",
+            options: ["Mars", "Jupiter", "Saturn", "Earth"],
+            correct: 1,
+          },
+          {
+            text: 'Who wrote "Noli Me Tangere"?',
+            options: [
+              "Jose Rizal",
+              "Andres Bonifacio",
+              "Emilio Aguinaldo",
+              "Marcelo H. del Pilar",
+            ],
+            correct: 0,
+          },
+          {
+            text: "What is the square root of 144?",
+            options: ["10", "11", "12", "13"],
+            correct: 2,
+          },
+          {
+            text: "Which of the following is a primary color?",
+            options: ["Green", "Orange", "Purple", "Red"],
+            correct: 3,
+          },
+          {
+            text: "What is the chemical symbol for Gold?",
+            options: ["Go", "Gd", "Au", "Ag"],
+            correct: 2,
+          },
+          {
+            text: "Who painted the Mona Lisa?",
+            options: ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"],
+            correct: 2,
+          },
+          {
+            text: "What is the capital of Japan?",
+            options: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+            correct: 2,
+          },
+          {
+            text: "Which planet is known as the Red Planet?",
+            options: ["Jupiter", "Mars", "Venus", "Saturn"],
+            correct: 1,
+          },
+        ],
+        "Professional Education": [
+          {
+            text: 'Who is known as the "Father of Modern Psychology"?',
+            options: [
+              "Sigmund Freud",
+              "William James",
+              "Wilhelm Wundt",
+              "John Dewey",
+            ],
+            correct: 2,
+          },
+          {
+            text: "What does IEP stand for in special education?",
+            options: [
+              "Individual Education Plan",
+              "Integrated Education Program",
+              "Individualized Education Plan",
+              "Inclusive Education Policy",
+            ],
+            correct: 2,
+          },
+          {
+            text: "Constructivism emphasizes that learning is:",
+            options: [
+              "Passive absorption",
+              "Active construction",
+              "Rote memorization",
+              "Teacher-centered",
+            ],
+            correct: 1,
+          },
+          {
+            text: "Bloom's Taxonomy highest level is:",
+            options: ["Synthesis", "Evaluation", "Analysis", "Creation"],
+            correct: 3,
+          },
+          {
+            text: "What is the main purpose of formative assessment?",
+            options: [
+              "Grading students",
+              "Monitoring progress",
+              "Final evaluation",
+              "Ranking performance",
+            ],
+            correct: 1,
+          },
+          {
+            text: "Who proposed the theory of multiple intelligences?",
+            options: ["Piaget", "Vygotsky", "Gardner", "Dewey"],
+            correct: 2,
+          },
+          {
+            text: "What does ZPD stand for?",
+            options: [
+              "Zone of Proximal Development",
+              "Zero Performance District",
+              "Zone of Personal Discovery",
+              "Zonal Proximal Direction",
+            ],
+            correct: 0,
+          },
+          {
+            text: "Which learning theory focuses on observable behaviors?",
+            options: [
+              "Constructivism",
+              "Humanism",
+              "Behaviorism",
+              "Cognitivism",
+            ],
+            correct: 2,
+          },
+        ],
+        "Major/Specialization": [
+          {
+            text: "What does HTML stand for?",
+            options: [
+              "Hyper Text Markup Language",
+              "High Tech Modern Language",
+              "Hyper Transfer Markup Language",
+              "Home Tool Markup Language",
+            ],
+            correct: 0,
+          },
+          {
+            text: "Which of the following is a programming language?",
+            options: ["HTML", "CSS", "JavaScript", "XML"],
+            correct: 2,
+          },
+          {
+            text: "What is the chemical symbol for Gold?",
+            options: ["Go", "Gd", "Au", "Ag"],
+            correct: 2,
+          },
+          {
+            text: "Which law states that for every action there is an equal and opposite reaction?",
+            options: ["First Law", "Second Law", "Third Law", "Fourth Law"],
+            correct: 2,
+          },
+          {
+            text: "What does CPU stand for?",
+            options: [
+              "Central Processing Unit",
+              "Computer Personal Unit",
+              "Central Program Utility",
+              "Core Processing Utility",
+            ],
+            correct: 0,
+          },
+          {
+            text: "Which data structure uses LIFO principle?",
+            options: ["Queue", "Array", "Stack", "Linked List"],
+            correct: 2,
+          },
+          {
+            text: "What is the powerhouse of the cell?",
+            options: ["Nucleus", "Mitochondria", "Ribosome", "Chloroplast"],
+            correct: 1,
+          },
+          {
+            text: "Which protocol is used for secure web browsing?",
+            options: ["HTTP", "FTP", "HTTPS", "SMTP"],
+            correct: 2,
+          },
+        ],
+      };
+
+      let currentQuestions = [];
+      let userAnswers = [];
+      let currentIndex = 0;
+      let timerInterval = null;
+      let timeRemaining = 0;
+      let examActive = false;
+
+      // ========== GO BACK FUNCTION ==========
+      function goBack() {
+        const examModal = document.getElementById("examModal");
+        if (examModal && examModal.classList.contains("active")) {
+          if (confirm("You have an ongoing exam. Leave without completing?")) {
+            if (timerInterval) clearInterval(timerInterval);
+            examModal.classList.remove("active");
+            document.body.classList.remove("modal-open");
+            document.body.style.overflow = "";
+            if (typeof window.navigateWithTransition === "function") {
+              window.navigateWithTransition("../student/studentQuiz.html");
+            } else {
+              window.location.href = "../student/studentQuiz.html";
+            }
+          }
+        } else {
+          if (typeof window.navigateWithTransition === "function") {
+            window.navigateWithTransition("../student/studentQuiz.html");
+          } else {
+            window.location.href = "../student/studentQuiz.html";
+          }
+        }
+      }
+
+      function startExam() {
+        const category = document.getElementById("examCategory").value;
+        const questionCount = parseInt(
+          document.getElementById("questionCount").value,
+        );
+        const minutes = parseInt(document.getElementById("minutesInput").value);
+
+        if (isNaN(minutes) || minutes < 1) {
+          alert("Please enter a valid time limit (1-180 minutes)");
+          return;
+        }
+
+        const categoryQuestions =
+          mockQuestions[category] || mockQuestions["General Education"];
+        let shuffled = [...categoryQuestions];
+
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        currentQuestions = shuffled.slice(
+          0,
+          Math.min(questionCount, shuffled.length),
+        );
+
+        while (
+          currentQuestions.length < questionCount &&
+          currentQuestions.length > 0
+        ) {
+          const copyQuestion = {
+            ...currentQuestions[
+              currentQuestions.length % currentQuestions.length
+            ],
+          };
+          copyQuestion.text = copyQuestion.text + " (Variant)";
+          currentQuestions.push(copyQuestion);
+        }
+
+        userAnswers = new Array(currentQuestions.length).fill(null);
+        currentIndex = 0;
+        timeRemaining = minutes * 60;
+
+        document.getElementById("examModal").classList.add("active");
+        document.body.classList.add("modal-open");
+        document.body.style.overflow = "hidden";
+
+        updateTimerDisplay();
+        renderCurrentQuestion();
+        updateQuestionCounter();
+
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          if (
+            !examActive &&
+            document.getElementById("examModal").classList.contains("active")
+          ) {
+            examActive = true;
+          }
+          if (timeRemaining > 0) {
+            timeRemaining--;
+            updateTimerDisplay();
+
+            const timerBox = document.getElementById("timerDisplay");
+            if (timeRemaining <= 60) {
+              timerBox.classList.add("warning");
+            }
+
+            if (timeRemaining === 0) {
+              clearInterval(timerInterval);
+              autoSubmitExam();
+            }
+          }
+        }, 1000);
+      }
+
+      function updateTimerDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        document.getElementById("timerText").textContent =
+          `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+      }
+
+      function renderCurrentQuestion() {
+        if (!currentQuestions.length || currentIndex >= currentQuestions.length)
+          return;
+
+        const q = currentQuestions[currentIndex];
+        document.getElementById("questionText").innerHTML =
+          `<i class="fa-regular fa-question-circle"></i> ${q.text}`;
+
+        const optionsHtml = q.options
+          .map(
+            (opt, idx) => `
+      <div class="option-item ${userAnswers[currentIndex] === idx ? "selected" : ""}" onclick="selectOption(${idx})">
+        <div class="option-radio"></div>
+        <div class="option-text">${String.fromCharCode(65 + idx)}. ${escapeHtml(opt)}</div>
+      </div>
+    `,
+          )
+          .join("");
+
+        document.getElementById("optionsList").innerHTML = optionsHtml;
+      }
+
+      function selectOption(optionIndex) {
+        userAnswers[currentIndex] = optionIndex;
+        renderCurrentQuestion();
+      }
+
+      function prevQuestion() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderCurrentQuestion();
+          updateQuestionCounter();
+        }
+      }
+
+      function nextQuestion() {
+        if (currentIndex < currentQuestions.length - 1) {
+          currentIndex++;
+          renderCurrentQuestion();
+          updateQuestionCounter();
+        }
+      }
+
+      function updateQuestionCounter() {
+        document.getElementById("questionCounter").innerHTML =
+          `<i class="fa-regular fa-rectangle-list"></i> <span>Question ${currentIndex + 1} / ${currentQuestions.length}</span>`;
+      }
+
+      function submitExam() {
+        if (timerInterval) clearInterval(timerInterval);
+
+        let score = 0;
+        currentQuestions.forEach((q, idx) => {
+          if (userAnswers[idx] === q.correct) score++;
+        });
+
+        const percentage = (score / currentQuestions.length) * 100;
+        let resultTitle = "";
+        let resultMessage = "";
+        let iconHtml = "";
+
+        if (percentage >= 90) {
+          iconHtml = '<i class="fa-solid fa-crown"></i>';
+          resultTitle = "Excellent!";
+          resultMessage = `You scored ${score}/${currentQuestions.length} (${percentage}%). Outstanding performance! Keep up the great work!`;
+        } else if (percentage >= 75) {
+          iconHtml = '<i class="fa-solid fa-trophy"></i>';
+          resultTitle = "Good Job!";
+          resultMessage = `You scored ${score}/${currentQuestions.length} (${percentage}%). You passed the simulation! Review to aim higher.`;
+        } else if (percentage >= 60) {
+          iconHtml = '<i class="fa-solid fa-book-open"></i>';
+          resultTitle = "Keep Practicing";
+          resultMessage = `You scored ${score}/${currentQuestions.length} (${percentage}%). Review the areas you missed and try again.`;
+        } else {
+          iconHtml = '<i class="fa-solid fa-heart"></i>';
+          resultTitle = "Need More Practice";
+          resultMessage = `You scored ${score}/${currentQuestions.length} (${percentage}%). Don\'t give up - keep studying and try again!`;
+        }
+
+        document.getElementById("scoreNumber").textContent = score;
+        document.getElementById("totalQuestions").textContent =
+          currentQuestions.length;
+        document.getElementById("resultTitle").innerHTML =
+          `${iconHtml} ${resultTitle}`;
+        document.getElementById("resultMessage").textContent = resultMessage;
+
+        document.getElementById("examModal").classList.remove("active");
+        document.getElementById("resultsModal").classList.add("active");
+      }
+
+      function autoSubmitExam() {
+        alert("Time is up! Submitting your exam...");
+        submitExam();
+      }
+
+      function closeResults() {
+        document.getElementById("resultsModal").classList.remove("active");
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        examActive = false;
+        currentQuestions = [];
+        userAnswers = [];
+        currentIndex = 0;
+        if (timerInterval) clearInterval(timerInterval);
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return str.replace(/[&<>]/g, function (m) {
+          if (m === "&") return "&amp;";
+          if (m === "<") return "&lt;";
+          if (m === ">") return "&gt;";
+          return m;
+        });
+      }
+
+      // Active sidebar highlighting
+      function highlightActiveSidebarItem() {
+        setTimeout(() => {
+          const sidebar = document.querySelector(
+            "#sidebar-container .sidebar, #sidebar-container",
+          );
+          if (sidebar) {
+            const allMenuItems = sidebar.querySelectorAll(".menu-item");
+            let quizMenuItem = null;
+
+            for (let item of allMenuItems) {
+              const text = item.textContent.toLowerCase();
+              if (text.includes("quiz") || text.includes("quiz mode")) {
+                quizMenuItem = item;
+                break;
+              }
+            }
+
+            if (quizMenuItem) {
+              allMenuItems.forEach((item) => item.classList.remove("active"));
+              quizMenuItem.classList.add("active");
+            }
+          }
+        }, 200);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        highlightActiveSidebarItem();
+
+        const observer = new MutationObserver(function (mutations) {
+          const sidebarContainer = document.getElementById("sidebar-container");
+          if (sidebarContainer && sidebarContainer.children.length > 0) {
+            highlightActiveSidebarItem();
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.getElementById("sidebar-container"), {
+          childList: true,
+          subtree: true,
+        });
+      });
+
+      window.addEventListener("load", function () {
+        highlightActiveSidebarItem();
+      });
+
+      window.navigateWithTransition =
+        window.navigateWithTransition ||
+        function (url) {
+          window.location.href = url;
+        };
+    </script>
+  </body>
+</html>

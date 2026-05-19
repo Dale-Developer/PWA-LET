@@ -17,9 +17,8 @@
 
   <!-- CSS - Sidebar and Modules styles -->
   <link rel="stylesheet" href="../assets/styles/studentStyles/studentSidebar.css" />
-  <link rel="stylesheet" href="../assets/styles/studentStyles/studentModules.css" />
 
-  <!-- Additional styles for modules page -->
+  <!-- Additional styles for modules page - FIXED LAYOUT -->
   <style>
     /* ===== FADE-IN ANIMATION ===== */
     @keyframes fadeIn {
@@ -37,7 +36,35 @@
       animation: fadeIn 0.3s ease-out;
     }
     
-    /* Additional page-specific styles - no detailed view needed */
+    /* ===== OVERRIDE: Remove right sidebar column from dashboard ===== */
+    .dashboard {
+      display: flex !important;
+      width: calc(100% - 215px) !important;
+      margin-left: 215px !important;
+      min-height: 100vh;
+      padding: 24px 28px !important;
+      transition: margin-left 0.3s ease, width 0.3s ease;
+      gap: 0 !important;
+    }
+    
+    body.sidebar-collapsed .dashboard {
+      margin-left: 70px !important;
+      width: calc(100% - 70px) !important;
+    }
+    
+    .dashboard .main-content {
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      flex: 1;
+      overflow-x: hidden;
+    }
+    
+    .dashboard .sidebar-right {
+      display: none !important;
+    }
+    
+    /* Page title area */
     .page-title-area {
       margin-bottom: 1.5rem;
     }
@@ -91,12 +118,13 @@
       box-shadow: 0 2px 6px rgba(47, 73, 224, 0.25);
     }
     
-    /* Modules Grid */
+    /* Modules Grid - RESPONSIVE */
     .modules-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.5rem;
       margin-top: 0.5rem;
+      width: 100%;
     }
     
     .subject-card {
@@ -107,6 +135,9 @@
       cursor: pointer;
       border: 1px solid #eef2f6;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     
     .subject-card:hover {
@@ -126,6 +157,7 @@
       margin-bottom: 1rem;
       color: #2f49e0;
       font-size: 1.5rem;
+      flex-shrink: 0;
     }
     
     .subject-card h3 {
@@ -140,6 +172,7 @@
       color: #6b7280;
       margin-bottom: 1rem;
       line-height: 1.4;
+      flex: 1;
     }
     
     .module-count {
@@ -152,6 +185,7 @@
       border-radius: 30px;
       color: #475569;
       font-weight: 500;
+      align-self: flex-start;
     }
     
     .empty-state {
@@ -169,8 +203,24 @@
       margin-bottom: 1rem;
     }
     
-    /* Responsive */
+    /* ===== RESPONSIVE BREAKPOINTS ===== */
+    @media (max-width: 1024px) {
+      .dashboard {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: calc(70px + env(safe-area-inset-top, 0px)) 20px 30px !important;
+      }
+      body.sidebar-collapsed .dashboard {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+    }
+    
     @media (max-width: 768px) {
+      .dashboard {
+        padding: calc(65px + env(safe-area-inset-top, 0px)) 16px 20px !important;
+      }
+      
       .modules-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -191,6 +241,10 @@
     }
     
     @media (max-width: 480px) {
+      .dashboard {
+        padding: calc(60px + env(safe-area-inset-top, 0px)) 12px 16px !important;
+      }
+      
       .modules-grid {
         gap: 0.875rem;
       }
@@ -203,11 +257,67 @@
         width: 44px;
         height: 44px;
         font-size: 1.25rem;
+        border-radius: 14px;
       }
       
       .subject-card h3 {
         font-size: 1rem;
       }
+      
+      .subject-card p {
+        font-size: 0.75rem;
+      }
+      
+      .category-pill {
+        padding: 0.35rem 0.875rem;
+        font-size: 0.75rem;
+      }
+      
+      .page-title-area h1 {
+        font-size: 1.3rem;
+      }
+      
+      .page-sub {
+        font-size: 0.75rem;
+      }
+    }
+    
+    /* Small tablets landscape */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .modules-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+      }
+    }
+    
+    /* Large screens */
+    @media (min-width: 1400px) {
+      .modules-grid {
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 1.75rem;
+      }
+      
+      .subject-card {
+        padding: 1.75rem;
+      }
+      
+      .subject-card h3 {
+        font-size: 1.25rem;
+      }
+    }
+    
+    /* Prevent overflow */
+    * {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    
+    body {
+      overflow-x: hidden;
+    }
+    
+    .main-content {
+      overflow-x: hidden;
     }
   </style>
 </head>
@@ -262,19 +372,19 @@
     // Subject data for all categories
     const subjectsData = {
       general: [
-        { id: 'math', name: 'Mathematics', description: 'Algebra, Calculus, Statistics', moduleCount: 12, icon: 'fa-calculator', page: 'mathematics' },
-        { id: 'science', name: 'Science', description: 'Physics, Chemistry, Biology', moduleCount: 10, icon: 'fa-flask', page: 'science' },
-        { id: 'english', name: 'English', description: 'Grammar, Literature, Writing', moduleCount: 8, icon: 'fa-book-open', page: 'english' }
+        { id: 'math', name: 'Mathematics', description: 'Algebra, Calculus, Statistics. Master mathematical concepts from basic to advanced levels.', moduleCount: 12, icon: 'fa-calculator', page: 'mathematics' },
+        { id: 'science', name: 'Science', description: 'Physics, Chemistry, Biology. Explore the wonders of the natural world.', moduleCount: 10, icon: 'fa-flask', page: 'science' },
+        { id: 'english', name: 'English', description: 'Grammar, Literature, Writing. Enhance your communication and literary skills.', moduleCount: 8, icon: 'fa-book-open', page: 'english' }
       ],
       professional: [
-        { id: 'edpsych', name: 'Educational Psychology', description: 'Learning theories & development', moduleCount: 6, icon: 'fa-brain', page: 'edpsych' },
-        { id: 'curriculum', name: 'Curriculum Development', description: 'Design & assessment', moduleCount: 5, icon: 'fa-diagram-project', page: 'curriculum' },
-        { id: 'teaching', name: 'Teaching Strategies', description: 'Pedagogy & classroom management', moduleCount: 7, icon: 'fa-chalkboard-user', page: 'teaching' }
+        { id: 'edpsych', name: 'Educational Psychology', description: 'Learning theories, child development, and cognitive processes.', moduleCount: 6, icon: 'fa-brain', page: 'edpsych' },
+        { id: 'curriculum', name: 'Curriculum Development', description: 'Design, implementation, and assessment of educational programs.', moduleCount: 5, icon: 'fa-diagram-project', page: 'curriculum' },
+        { id: 'teaching', name: 'Teaching Strategies', description: 'Pedagogy, classroom management, and instructional methods.', moduleCount: 7, icon: 'fa-chalkboard-user', page: 'teaching' }
       ],
       major: [
-        { id: 'it', name: 'Information Technology', description: 'Programming, Networking, DB', moduleCount: 15, icon: 'fa-laptop-code', page: 'it' },
-        { id: 'eng', name: 'Engineering', description: 'Civil, Mechanical, Electrical', moduleCount: 9, icon: 'fa-gear', page: 'engineering' },
-        { id: 'business', name: 'Business Administration', description: 'Management, Marketing', moduleCount: 11, icon: 'fa-chart-line', page: 'business' }
+        { id: 'it', name: 'Information Technology', description: 'Programming, Networking, Database Management, and Systems Analysis.', moduleCount: 15, icon: 'fa-laptop-code', page: 'it' },
+        { id: 'eng', name: 'Engineering', description: 'Civil, Mechanical, Electrical Engineering principles and applications.', moduleCount: 9, icon: 'fa-gear', page: 'engineering' },
+        { id: 'business', name: 'Business Administration', description: 'Management, Marketing, Finance, and Organizational Behavior.', moduleCount: 11, icon: 'fa-chart-line', page: 'business' }
       ]
     };
 
@@ -327,8 +437,14 @@
           const subjectName = card.getAttribute('data-subject-name');
           const subjectPage = card.getAttribute('data-subject-page');
           
+          // Store subject info in localStorage for the view modules page
+          localStorage.setItem('selectedSubject', JSON.stringify({
+            id: subjectId,
+            name: subjectName,
+            page: subjectPage
+          }));
+          
           // Redirect to studentViewModules.html with query parameters
-          // This allows the view modules page to know which subject to display
           const redirectUrl = `studentViewModules.html?subject=${encodeURIComponent(subjectId)}&name=${encodeURIComponent(subjectName)}&page=${encodeURIComponent(subjectPage)}`;
           window.location.href = redirectUrl;
         });
@@ -351,9 +467,34 @@
       });
     }
 
+    // Highlight active sidebar item
+    function highlightActiveSidebarItem() {
+      setTimeout(() => {
+        const sidebar = document.querySelector('#sidebar-container .sidebar, #sidebar-container');
+        if (sidebar) {
+          const allMenuItems = sidebar.querySelectorAll('.menu-item');
+          let modulesMenuItem = null;
+          
+          for (let item of allMenuItems) {
+            const text = item.textContent.toLowerCase();
+            if (text.includes('modules')) {
+              modulesMenuItem = item;
+              break;
+            }
+          }
+          
+          if (modulesMenuItem) {
+            allMenuItems.forEach(item => item.classList.remove('active'));
+            modulesMenuItem.classList.add('active');
+          }
+        }
+      }, 200);
+    }
+
     // Initialize page
     document.addEventListener('DOMContentLoaded', () => {
       renderSubjects('general');
+      highlightActiveSidebarItem();
 
       // Category filter listeners
       document.querySelectorAll('.category-pill').forEach(btn => {
@@ -363,19 +504,21 @@
         });
       });
 
-      // Highlight "Modules" in sidebar after it loads
-      setTimeout(() => {
-        const sidebar = document.querySelector('#sidebar-container .sidebar, #sidebar-container');
-        if (sidebar) {
-          const modulesLink = Array.from(sidebar.querySelectorAll('.menu-item')).find(item => 
-            item.textContent.toLowerCase().includes('modules')
-          );
-          if (modulesLink) {
-            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-            modulesLink.classList.add('active');
-          }
+      // Watch for sidebar injection
+      const observer = new MutationObserver(function(mutations) {
+        const sidebarContainer = document.getElementById('sidebar-container');
+        if (sidebarContainer && sidebarContainer.children.length > 0) {
+          highlightActiveSidebarItem();
+          observer.disconnect();
         }
-      }, 150);
+      });
+      
+      observer.observe(document.getElementById('sidebar-container'), { childList: true, subtree: true });
+    });
+
+    // Fallback for window load
+    window.addEventListener('load', function() {
+      highlightActiveSidebarItem();
     });
   </script>
 </body>

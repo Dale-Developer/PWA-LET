@@ -40,9 +40,9 @@
 
   /* Topbar strip */
   .topbar-wrapper {
-    background: #fff;
+    background: #eef2ff;
     padding: 14px 28px;
-    border-bottom: 1px solid #eef2ff;
+    /* border-bottom: 1px solid #eef2ff; */
     flex-shrink: 0;
   }
 
@@ -472,11 +472,75 @@
   function submitQuiz() {
     const done = answers.filter(a => a !== null).length;
     alert(`Quiz submitted!\nAnswered: ${done} / ${TOTAL}`);
+    // Optionally redirect back to quiz mode page
+    if (confirm("Return to Quiz Mode?")) {
+      goBack();
+    }
   }
 
   function goBack() {
-    window.navigateWithTransition('../student/studentQuiz.html');
+    if (typeof window.navigateWithTransition === 'function') {
+      window.navigateWithTransition('../student/studentQuiz.html');
+    } else {
+      window.location.href = '../student/studentQuiz.html';
+    }
   }
+
+  // ========== ACTIVE SIDEBAR HIGHLIGHTING ==========
+  // This function ensures the "Quiz Mode" menu item is highlighted in the sidebar
+  function highlightActiveSidebarItem() {
+    // Wait a bit for the sidebar to load
+    setTimeout(() => {
+      const sidebar = document.querySelector('#sidebar-container .sidebar, #sidebar-container');
+      if (sidebar) {
+        // Find the menu item that contains "Quiz" or "Quiz Mode" text
+        const allMenuItems = sidebar.querySelectorAll('.menu-item');
+        let quizMenuItem = null;
+        
+        for (let item of allMenuItems) {
+          const text = item.textContent.toLowerCase();
+          if (text.includes('quiz') || text.includes('quiz mode')) {
+            quizMenuItem = item;
+            break;
+          }
+        }
+        
+        if (quizMenuItem) {
+          // Remove active class from all menu items
+          allMenuItems.forEach(item => item.classList.remove('active'));
+          // Add active class to Quiz Mode item
+          quizMenuItem.classList.add('active');
+        }
+      }
+    }, 200); // Increased delay to ensure sidebar is fully loaded
+  }
+
+  // Also handle when sidebar might be injected after DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", function() {
+    document.body.classList.remove("page-loading");
+    highlightActiveSidebarItem();
+    
+    // Set up a mutation observer to watch for sidebar injection
+    const observer = new MutationObserver(function(mutations) {
+      const sidebarContainer = document.getElementById('sidebar-container');
+      if (sidebarContainer && sidebarContainer.children.length > 0) {
+        highlightActiveSidebarItem();
+        observer.disconnect(); // Stop observing once sidebar is loaded
+      }
+    });
+    
+    observer.observe(document.getElementById('sidebar-container'), { childList: true, subtree: true });
+  });
+  
+  // Fallback: highlight when window loads
+  window.addEventListener('load', function() {
+    highlightActiveSidebarItem();
+  });
+  
+  // Export navigateWithTransition for compatibility
+  window.navigateWithTransition = window.navigateWithTransition || function(url) {
+    window.location.href = url;
+  };
 </script>
 </body>
 </html>
