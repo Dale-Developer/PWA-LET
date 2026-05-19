@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <title>Performance History | LearnIQ</title>
+
+  <!-- Fonts & Icons (using Inter + Poppins blend) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Sidebar CSS (unchanged, external reference) -->
+  <link rel="stylesheet" href="../assets/styles/studentStyles/studentSidebar.css" />
+
+  <style>
+    /* ============================================
+       NEW HISTORY PAGE STYLES 
+       Inspired by the modules page design language
+       (clean cards, rounded corners, subtle shadows)
+       Does NOT affect sidebar/topbar — only main area.
+    ============================================ */
+    
+    /* Override dashboard grid — ensure main content uses full width */
+    .dashboard {
+      display: flex !important;
+      width: calc(100% - 215px) !important;
+      margin-left: 215px !important;
+      min-height: 100vh;
+      padding: 28px 32px !important;
+      gap: 0 !important;
+      background: #f8fafc;
+    }
+    
+    .dashboard .main-content {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 1 !important;
+      padding: 0 !important;
+    }
+    
+    /* Hide right sidebar (if any) */
+    .sidebar-right {
+      display: none !important;
+    }
+    
+    /* Sidebar collapsed state adjustment */
+    body.sidebar-collapsed .dashboard {
+      margin-left: 70px !important;
+      width: calc(100% - 70px) !important;
+    }
+    
+    /* ========== HISTORY SPECIFIC COMPONENTS ========== */
+    .history-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(47, 73, 224, 0.12);
+    }
+    
+    .header-title h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e293b 0%, #2f49e0 90%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    
+    .header-title p {
+      font-size: 0.85rem;
+      color: #475569;
+      font-weight: 450;
+    }
+    
+    .export-history-btn {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 60px;
+      padding: 9px 24px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: #1e293b;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(2px);
+    }
+    
+    .export-history-btn:hover {
+      border-color: #2f49e0;
+      background: #f8faff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    
+    /* Stats Summary Cards (inspired by modules stats) */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 24px 0 32px;
+    }
+    
+    .stat-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid #eef2ff;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+      border-color: #cbd5e1;
+    }
+    
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      background: #2f49e010;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2f49e0;
+      font-size: 1.3rem;
+    }
+    
+    .stat-info h4 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+    
+    .stat-info p {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    
+    /* Section headings */
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 28px 0 16px 0;
+    }
+    
+    .section-head i {
+      color: #2f49e0;
+      font-size: 1.3rem;
+    }
+    
+    /* Chart container — modern, clean */
+    .chart-container-modern {
+      background: white;
+      border-radius: 28px;
+      padding: 20px 24px 28px;
+      border: 1px solid #eef2ff;
+      margin-bottom: 32px;
+      transition: all 0.2s;
+    }
+    
+    .chart-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    
+    .chart-header-flex h3 {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .period-badge {
+      background: #f1f5f9;
+      border-radius: 40px;
+      padding: 6px 18px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .period-badge:hover {
+      background: #e2e8f0;
+    }
+    
+    /* Bar chart wrapper */
+    .bar-chart-area {
+      position: relative;
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: clamp(32px, 5vw, 70px);
+      min-width: 500px;
+      height: 250px;
+      padding: 0 16px 8px 56px;
+      border-left: 2px solid #e2e8f0;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .y-grid {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 210px;
+      position: absolute;
+      left: 0;
+      top: 8px;
+    }
+    
+    .y-grid span {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #94a3b8;
+    }
+    
+    .bar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100px;
+      transition: transform 0.2s;
+    }
+    
+    .bar-item:hover {
+      transform: translateY(-4px);
+    }
+    
+    .bar-value {
+      background: #f1f5f9;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #0f172a;
+    }
+    
+    .bar-visual {
+      width: 60px;
+      border-radius: 20px 20px 10px 10px;
+      background: linear-gradient(180deg, #818cf8, #4f46e5);
+      transition: all 0.2s;
+    }
+    
+    .bar-label-modern {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #f8fafc;
+      padding: 5px 12px;
+      border-radius: 20px;
+      color: #334155;
+    }
+    
+    /* Table styles – clean, modern card table */
+    .history-table-wrapper {
+      background: white;
+      border-radius: 28px;
+      border: 1px solid #eef2ff;
+      overflow: hidden;
+      margin: 16px 0 24px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .history-table th {
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      background: #fbfdff;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eef2ff;
+      letter-spacing: 0.5px;
+    }
+    
+    .history-table td {
+      padding: 14px 20px;
+      font-size: 0.82rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #1e293b;
+      font-weight: 500;
+    }
+    
+    .history-table tr:hover td {
+      background: #fafbff;
+    }
+    
+    .subject-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .subject-icon-sm {
+      width: 36px;
+      height: 36px;
+      background: #eef0fd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2f49e0;
+    }
+    
+    .accuracy-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .progress-mini {
+      width: 70px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+    }
+    
+    .badge-mode {
+      background: #eef2ff;
+      border-radius: 30px;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+    
+    .review-link {
+      color: #2f49e0;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.75rem;
+      background: #eef0fd;
+      padding: 6px 14px;
+      border-radius: 30px;
+      transition: all 0.2s;
+    }
+    
+    .review-link:hover {
+      background: #e0e7ff;
+    }
+    
+    .load-more-history {
+      display: flex;
+      justify-content: center;
+      margin: 12px 0 30px;
+    }
+    
+    .load-more-btn {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 60px;
+      padding: 10px 32px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    .load-more-btn:hover {
+      border-color: #2f49e0;
+      background: #f7f9ff;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .dashboard {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: calc(70px + env(safe-area-inset-top, 0px)) 20px 30px !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .stats-row {
+        grid-template-columns: repeat(2,1fr);
+        gap: 12px;
+      }
+      .history-table th:nth-child(4), .history-table td:nth-child(4),
+      .history-table th:nth-child(5), .history-table td:nth-child(5) {
+        display: none;
+      }
+      .chart-bars {
+        gap: 20px;
+        min-width: 420px;
+      }
+      .bar-item {
+        width: 70px;
+      }
+      .bar-visual {
+        width: 44px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .stats-row {
+        grid-template-columns: 1fr;
+      }
+      .header-title h1 {
+        font-size: 1.5rem;
+      }
+      .chart-container-modern {
+        padding: 16px;
+      }
+    }
+    
+    .fade-transition {
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <!-- HAMBURGER BUTTON (for sidebar toggle) -->
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div id="sidebar-container"></div>
+
+  <div class="dashboard">
+    <div class="main-content">
+      <div id="topbar-container"></div>
+
+      <!-- HISTORY MAIN CONTENT (inspired by reference but fresh) -->
+      <div class="fade-transition">
+        <!-- Header Area -->
+        <div class="history-header">
+          <div class="header-title">
+            <h1><i class="fa-regular fa-chart-line" style="margin-right: 12px; color:#2f49e0;"></i> Performance History</h1>
+            <p>Track your quiz journey, monitor accuracy trends, and identify knowledge gaps</p>
+          </div>
+          <button class="export-history-btn" id="exportHistoryBtn"><i class="fa-solid fa-download"></i> Export report</button>
+        </div>
+
+        <!-- Stats Summary Cards -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+            <div class="stat-info">
+              <h4 id="totalQuizzesStat">0</h4>
+              <p>Total Quizzes</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-regular fa-star"></i></div>
+            <div class="stat-info">
+              <h4 id="avgAccuracyStat">0%</h4>
+              <p>Avg Accuracy</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="stat-info">
+              <h4 id="bestSubjectStat">—</h4>
+              <p>Strongest Subject</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-regular fa-clock"></i></div>
+            <div class="stat-info">
+              <h4 id="studyTimeStat">—</h4>
+              <p>Est. Total Time</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BAR CHART SECTION (average per category) -->
+        <div class="chart-container-modern">
+          <div class="chart-header-flex">
+            <h3><i class="fa-solid fa-chart-column"></i> Average Score by Category</h3>
+            <button class="period-badge" id="periodInfoBtn"><i class="fa-regular fa-calendar"></i> All time</button>
+          </div>
+          <div class="bar-chart-area">
+            <div class="chart-bars" id="trendBarsContainer">
+              <!-- dynamic bars via js -->
+            </div>
+          </div>
+          <div style="font-size:0.7rem; text-align:center; margin-top:12px; color:#94a3b8;">
+            <i class="fa-regular fa-circle-check"></i> Based on your actual quiz attempts
+          </div>
+        </div>
+
+        <!-- FILTER SECTION (simple inline) -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin: 12px 0 8px;">
+          <div class="section-head">
+            <i class="fa-regular fa-rectangle-list"></i> Quiz Attempts
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <select id="filterCategorySelect" style="border-radius: 40px; padding: 6px 16px; border:1px solid #e2e8f0; background:white; font-size:0.75rem;">
+              <option value="">All Categories</option>
+              <option>General Education</option>
+              <option>Professional Education</option>
+              <option>Major/Specialization</option>
+            </select>
+            <select id="filterModeSelect" style="border-radius: 40px; padding: 6px 16px; border:1px solid #e2e8f0;">
+              <option value="">All Modes</option>
+              <option>Practice</option><option>Exam</option><option>Random</option>
+            </select>
+            <button id="resetFiltersBtn" style="background:#f1f5f9; border:none; border-radius:40px; padding:6px 18px; font-weight:500;">Reset</button>
+          </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="history-table-wrapper">
+          <table class="history-table">
+            <thead>
+              <tr><th>Quiz / Subject</th><th>Mode</th><th>Score</th><th>Accuracy</th><th>Time Taken</th><th>Date</th><th></th></tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+        <div class="load-more-history">
+          <button class="load-more-btn" id="loadMoreHistoryBtn">Load more <i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar/topbar loader (preserved unchanged) -->
+  <script src="../assets/scripts/student-layout.js"></script>
+
+  <script>
+    // ============================================================
+    // NEW STUDENT HISTORY DATA (expanded dataset, inspired by original reference)
+    // ============================================================
+    const quizHistoryData = [
+      { id:1, category:"General Education", subject:"Mathematics", subTopic:"Algebra Basics", mode:"Practice", score:"12/15", accuracy:80, time:"15m 20s", date:"Jun 7, 2024", icon:"fa-square-root-variable", iconColor:"#16a34a", iconBg:"#dcfce7" },
+      { id:2, category:"General Education", subject:"Science", subTopic:"Cell Biology", mode:"Exam", score:"38/50", accuracy:76, time:"42m 10s", date:"Jun 6, 2024", icon:"fa-flask", iconColor:"#2563eb", iconBg:"#dbeafe" },
+      { id:3, category:"Professional Education", subject:"Pedagogy", subTopic:"Teaching Strategies", mode:"Exam", score:"28/40", accuracy:70, time:"33m 12s", date:"Jun 5, 2024", icon:"fa-chalkboard-user", iconColor:"#d97706", iconBg:"#fef3c7" },
+      { id:4, category:"General Education", subject:"Mathematics", subTopic:"Algebra Basics", mode:"Practice", score:"11/15", accuracy:73, time:"14m 50s", date:"Jun 4, 2024", icon:"fa-square-root-variable", iconColor:"#16a34a", iconBg:"#dcfce7" },
+      { id:5, category:"Professional Education", subject:"Educational Psychology", subTopic:"Learning Theories", mode:"Random", score:"18/25", accuracy:72, time:"22m 05s", date:"Jun 3, 2024", icon:"fa-brain", iconColor:"#4f46e5", iconBg:"#e0e7ff" },
+      { id:6, category:"Major/Specialization", subject:"Computer Science", subTopic:"Data Structures", mode:"Exam", score:"21/30", accuracy:70, time:"28m 30s", date:"Jun 2, 2024", icon:"fa-code", iconColor:"#9333ea", iconBg:"#f3e8ff" },
+      { id:7, category:"Major/Specialization", subject:"Computer Science", subTopic:"Algorithms", mode:"Practice", score:"13/20", accuracy:65, time:"18m 15s", date:"Jun 1, 2024", icon:"fa-code", iconColor:"#9333ea", iconBg:"#f3e8ff" },
+      { id:8, category:"General Education", subject:"English", subTopic:"Grammar", mode:"Practice", score:"17/20", accuracy:85, time:"16m 40s", date:"May 30, 2024", icon:"fa-book", iconColor:"#16a34a", iconBg:"#dcfce7" },
+      { id:9, category:"Professional Education", subject:"Assessment", subTopic:"Evaluation Methods", mode:"Exam", score:"23/35", accuracy:66, time:"31m 20s", date:"May 29, 2024", icon:"fa-clipboard-list", iconColor:"#dc2626", iconBg:"#fee2e2" },
+      { id:10, category:"Major/Specialization", subject:"Software Engineering", subTopic:"SDLC", mode:"Random", score:"15/20", accuracy:75, time:"19m 12s", date:"May 28, 2024", icon:"fa-diagram-project", iconColor:"#0284c7", iconBg:"#e0f2fe" },
+      { id:11, category:"General Education", subject:"Mathematics", subTopic:"Calculus", mode:"Practice", score:"9/12", accuracy:75, time:"22m 10s", date:"May 25, 2024", icon:"fa-square-root-variable", iconColor:"#16a34a", iconBg:"#dcfce7" }
+    ];
+
+    // Computed category averages
+    function computeCategoryAverages() {
+      const map = new Map();
+      quizHistoryData.forEach(q => {
+        if(!map.has(q.category)) map.set(q.category, { total:0, count:0 });
+        let entry = map.get(q.category);
+        entry.total += q.accuracy;
+        entry.count++;
+      });
+      return Array.from(map.entries()).map(([cat, data]) => ({ category: cat, avg: Math.round(data.total / data.count) }));
+    }
+
+    // Render bars into chart container (inspired by modern style)
+    function renderCategoryChart() {
+      const container = document.getElementById('trendBarsContainer');
+      if(!container) return;
+      const categoryAvgs = computeCategoryAverages();
+      const order = ["General Education", "Professional Education", "Major/Specialization"];
+      categoryAvgs.sort((a,b) => order.indexOf(a.category) - order.indexOf(b.category));
+      container.innerHTML = '';
+      const maxHeight = 180;
+      categoryAvgs.forEach(item => {
+        const heightVal = Math.max(30, (item.avg / 100) * maxHeight);
+        let gradient = 'linear-gradient(180deg, #818cf8, #4f46e5)';
+        if(item.category === 'General Education') gradient = 'linear-gradient(180deg, #a78bfa, #7c5cbf)';
+        if(item.category === 'Professional Education') gradient = 'linear-gradient(180deg, #60a5fa, #3b82f6)';
+        if(item.category === 'Major/Specialization') gradient = 'linear-gradient(180deg, #4ade80, #16a34a)';
+        const barDiv = document.createElement('div');
+        barDiv.className = 'bar-item';
+        barDiv.innerHTML = `
+          <span class="bar-value">${item.avg}%</span>
+          <div class="bar-visual" style="height: ${heightVal}px; background: ${gradient};"></div>
+          <span class="bar-label-modern">${item.category}</span>
+        `;
+        container.appendChild(barDiv);
+      });
+    }
+
+    // Stats cards updates
+    function updateStatsCards() {
+      const totalQuizzes = quizHistoryData.length;
+      const avgAcc = Math.round(quizHistoryData.reduce((sum,q)=>sum+q.accuracy,0)/totalQuizzes);
+      document.getElementById('totalQuizzesStat').innerText = totalQuizzes;
+      document.getElementById('avgAccuracyStat').innerText = `${avgAcc}%`;
+      
+      // strongest subject based on avg accuracy per subject (simplified)
+      const subjectMap = new Map();
+      quizHistoryData.forEach(q => {
+        if(!subjectMap.has(q.subject)) subjectMap.set(q.subject, { total:0, count:0 });
+        let subj = subjectMap.get(q.subject);
+        subj.total += q.accuracy; subj.count++;
+      });
+      let bestSubject = "—", bestAvg = 0;
+      for(let [sub, data] of subjectMap.entries()){
+        let avgSub = data.total/data.count;
+        if(avgSub > bestAvg){ bestAvg = avgSub; bestSubject = sub; }
+      }
+      document.getElementById('bestSubjectStat').innerText = bestSubject !== "—" ? bestSubject : "Math";
+      // estimated total time (dummy: sum of minutes)
+      let totalMins = quizHistoryData.reduce((sum, q) => {
+        let mins = parseInt(q.time.split('m')[0]) || 0;
+        return sum + mins;
+      }, 0);
+      document.getElementById('studyTimeStat').innerHTML = `${totalMins} min`;
+    }
+
+    // TABLE dynamic filtering / pagination
+    let currentFilters = { category: '', mode: '' };
+    let visibleRowsCount = 6;
+    let filteredData = [...quizHistoryData];
+
+    function applyFiltering() {
+      filteredData = quizHistoryData.filter(q => {
+        if(currentFilters.category && q.category !== currentFilters.category) return false;
+        if(currentFilters.mode && q.mode !== currentFilters.mode) return false;
+        return true;
+      });
+      visibleRowsCount = 6;
+      renderTableRows();
+    }
+
+    function renderTableRows() {
+      const tbody = document.getElementById('historyTableBody');
+      if(!tbody) return;
+      const slice = filteredData.slice(0, visibleRowsCount);
+      tbody.innerHTML = slice.map(q => `
+        <tr>
+          <td><div class="subject-badge"><div class="subject-icon-sm" style="background:${q.iconBg}; color:${q.iconColor}"><i class="fa-solid ${q.icon}"></i></div><div><strong>${q.subject}</strong><br><span style="font-size:0.7rem; color:#475569;">${q.subTopic}</span></div></div></td>
+          <td><span class="badge-mode">${q.mode}</span></td>
+          <td><strong>${q.score}</strong></td>
+          <td><div class="accuracy-cell"><div class="progress-mini"><div class="progress-fill" style="width:${q.accuracy}%; background:${q.accuracy>=75?'#22c55e':q.accuracy>=60?'#f97316':'#ef4444'}"></div></div><span>${q.accuracy}%</span></div></td>
+          <td>${q.time}</td>
+          <td style="font-size:0.75rem;">${q.date}</td>
+          <td><button class="review-link" data-sub="${q.subject}" data-topic="${q.subTopic}">Review <i class="fa-regular fa-arrow-right"></i></button></td>
+        </tr>
+      `).join('');
+      // attach review events
+      document.querySelectorAll('.review-link').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          let sub = btn.getAttribute('data-sub') || 'topic';
+          alert(`📚 Review mode for ${sub} — dive deeper into explanations & practice.`);
+        });
+      });
+      const loadBtn = document.getElementById('loadMoreHistoryBtn');
+      if(loadBtn) loadBtn.style.display = visibleRowsCount >= filteredData.length ? 'none' : 'flex';
+    }
+
+    function loadMore() {
+      visibleRowsCount += 5;
+      renderTableRows();
+    }
+
+    // filters listeners
+    const categorySelect = document.getElementById('filterCategorySelect');
+    const modeSelect = document.getElementById('filterModeSelect');
+    const resetBtn = document.getElementById('resetFiltersBtn');
+    if(categorySelect) categorySelect.addEventListener('change', (e) => { currentFilters.category = e.target.value; applyFiltering(); });
+    if(modeSelect) modeSelect.addEventListener('change', (e) => { currentFilters.mode = e.target.value; applyFiltering(); });
+    if(resetBtn) resetBtn.addEventListener('click', () => { currentFilters.category = ''; currentFilters.mode = ''; if(categorySelect) categorySelect.value = ''; if(modeSelect) modeSelect.value = ''; applyFiltering(); });
+    
+    const loadMoreBtn = document.getElementById('loadMoreHistoryBtn');
+    if(loadMoreBtn) loadMoreBtn.addEventListener('click', loadMore);
+    
+    const exportBtn = document.getElementById('exportHistoryBtn');
+    if(exportBtn) exportBtn.addEventListener('click', () => { alert('Export CSV (simulated): your quiz history would be downloaded.'); });
+    
+    document.getElementById('periodInfoBtn')?.addEventListener('click', () => { alert('📈 Showing overall performance metrics across all time.'); });
+
+    // highlight current menu (history)
+    function highlightSidebar() {
+      setTimeout(() => {
+        const sidebar = document.querySelector('#sidebar-container');
+        if(sidebar) {
+          const items = sidebar.querySelectorAll('.menu-item');
+          items.forEach(item => item.classList.remove('active'));
+          const historyItem = Array.from(items).find(i => i.textContent.toLowerCase().includes('history'));
+          if(historyItem) historyItem.classList.add('active');
+        }
+      }, 200);
+    }
+
+    // initializers
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCategoryChart();
+      updateStatsCards();
+      applyFiltering();
+      highlightSidebar();
+    });
+    
+    // resize listener for bar chart adaptivity (optional)
+    window.addEventListener('resize', () => renderCategoryChart());
+  </script>
+</body>
+</html>
